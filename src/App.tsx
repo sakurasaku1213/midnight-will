@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import type { KeyboardEvent } from 'react';
 import {
   BookOpen,
@@ -87,6 +87,7 @@ function App() {
       started: true,
       narrative: episode.opening.startText,
       log: [...state.log, '調査開始。午前0時18分、事務所に到着した。'],
+      activeSpeakerId: undefined,
       mode: 'scene',
     }));
   }
@@ -117,6 +118,7 @@ function App() {
         visitedLocationIds: visited ? state.visitedLocationIds : [...state.visitedLocationIds, locationId],
         narrative: visited ? location.description : location.firstDescription,
         log: [...state.log, `${location.name}へ移動した。`],
+        activeSpeakerId: undefined,
         mode: 'scene',
       };
     });
@@ -132,6 +134,7 @@ function App() {
           addEvidence: action.addEvidence,
           setFlags: action.setFlags,
           log: action.log,
+          activeSpeakerId: undefined,
           mode: 'scene',
         },
         episode,
@@ -149,6 +152,7 @@ function App() {
           addEvidence: talk.addEvidence,
           setFlags: talk.setFlags,
           log: talk.log,
+          activeSpeakerId: talk.characterId,
           mode: 'scene',
         },
         episode,
@@ -173,6 +177,7 @@ function App() {
           addEvidence: reaction?.addEvidence,
           setFlags: reaction?.setFlags,
           log: reaction?.log ?? `${character?.name ?? '相手'}に「${evidence?.name ?? '証拠'}」を示した。`,
+          activeSpeakerId: selectedCharacterId,
           mode: 'scene',
         },
         episode,
@@ -221,7 +226,11 @@ function App() {
           </div>
           <h1>{currentLocation.name}</h1>
           <LocationArt location={currentLocation} />
-          <NarrativeText text={gameState.narrative} soundEnabled={soundEnabled} />
+          <NarrativeText
+            text={gameState.narrative}
+            speaker={gameState.activeSpeakerId ? charactersById.get(gameState.activeSpeakerId) : undefined}
+            soundEnabled={soundEnabled}
+          />
           {gameState.mode === 'ending' ? (
             <button className="primary-button" type="button" onClick={resetGame}>
               <RotateCcw size={18} />
@@ -723,11 +732,23 @@ function SceneSummary({
   );
 }
 
-function NarrativeText({ text, soundEnabled }: { text: string; soundEnabled: boolean }) {
-  const [visibleCount, setVisibleCount] = useState(text.length);
+function NarrativeText({
+  text,
+  speaker,
+  soundEnabled,
+}: {
+  text: string;
+  speaker?: Character;
+  soundEnabled: boolean;
+}) {
+  const pages = useMemo(() => splitMessagePages(text), [text]);
+  const [pageIndex, setPageIndex] = useState(0);
+  const currentPage = pages[pageIndex] ?? '';
+  const [visibleCount, setVisibleCount] = useState(currentPage.length);
   const timerRef = useRef<number | null>(null);
-  const isTyping = visibleCount < text.length;
-  const visibleText = text.slice(0, visibleCount);
+  const isTyping = visibleCount < currentPage.length;
+  const hasNextPage = pageIndex < pages.length - 1;
+  const visibleText = currentPage.slice(0, visibleCount);
   const paragraphs = visibleText.split(/\n{2,}/);
 
   useEffect(() => {
@@ -737,17 +758,18 @@ function NarrativeText({ text, soundEnabled }: { text: string; soundEnabled: boo
     }
 
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    setVisibleCount(prefersReducedMotion ? text.length : 0);
-  }, [text]);
+    setPageIndex(0);
+    setVisibleCount(prefersReducedMotion ? (pages[0]?.length ?? 0) : 0);
+  }, [pages, text]);
 
   useEffect(() => {
-    if (visibleCount >= text.length) return undefined;
+    if (visibleCount >= currentPage.length) return undefined;
 
-    const currentChar = text[visibleCount] ?? '';
+    const currentChar = currentPage[visibleCount] ?? '';
     timerRef.current = window.setTimeout(() => {
       setVisibleCount((current) => {
-        const next = Math.min(text.length, current + 1);
-        const typedChar = text[next - 1] ?? '';
+        const next = Math.min(currentPage.length, current + 1);
+        const typedChar = currentPage[next - 1] ?? '';
         if (soundEnabled && shouldPlayTypeSound(typedChar, next)) {
           soundEngine.play('type');
         }
@@ -761,39 +783,56 @@ function NarrativeText({ text, soundEnabled }: { text: string; soundEnabled: boo
         timerRef.current = null;
       }
     };
-  }, [soundEnabled, text, visibleCount]);
+  }, [currentPage, soundEnabled, visibleCount]);
 
-  function skipTyping() {
-    if (isTyping) setVisibleCount(text.length);
+  function advanceMessage() {
+    if (isTyping) {
+      setVisibleCount(currentPage.length);
+      return;
+    }
+    if (hasNextPage) {
+      const nextPageIndex = pageIndex + 1;
+      setPageIndex(nextPageIndex);
+      setVisibleCount(0);
+    }
   }
 
   function handleKeyDown(event: KeyboardEvent<HTMLDivElement>) {
-    if (!isTyping) return;
     if (event.key === 'Enter' || event.key === ' ') {
       event.preventDefault();
-      skipTyping();
+      advanceMessage();
     }
   }
 
   return (
-    <div
-      className={isTyping ? 'narrative typing' : 'narrative'}
-      onPointerDown={skipTyping}
-      onKeyDown={handleKeyDown}
-      tabIndex={isTyping ? 0 : undefined}
-    >
-      {paragraphs.map((paragraph, index) => (
-        <p key={`${index}-${paragraph.slice(0, 12)}`}>
-          {paragraph}
-          {isTyping && index === paragraphs.length - 1 ? <span className="type-cursor" aria-hidden="true" /> : null}
-        </p>
-      ))}
+    <div className={speaker ? 'dialogue-stage with-speaker' : 'dialogue-stage'}>
+      {speaker ? (
+        <div className="speaker-cutin" aria-hidden="true">
+          <CharacterSprite character={speaker} size="medium" />
+        </div>
+      ) : null}
+      <div
+        className={isTyping ? 'narrative typing' : 'narrative'}
+        onPointerDown={advanceMessage}
+        onKeyDown={handleKeyDown}
+        tabIndex={0}
+      >
+        <div className="speaker-name">{speaker?.name ?? '調査メモ'}</div>
+        {paragraphs.map((paragraph, index) => (
+          <p key={`${pageIndex}-${index}-${paragraph.slice(0, 12)}`}>
+            {paragraph}
+            {isTyping && index === paragraphs.length - 1 ? <span className="type-cursor" aria-hidden="true" /> : null}
+          </p>
+        ))}
+        {!isTyping && hasNextPage ? <span className="page-cue" aria-hidden="true">▼</span> : null}
+      </div>
     </div>
   );
 }
 
 function getTypeDelay(char: string) {
   if (char === '\n') return 120;
+  if (char === '…') return 220;
   if ('。！？!?'.includes(char)) return 150;
   if ('、，,'.includes(char)) return 90;
   return 18;
@@ -801,6 +840,27 @@ function getTypeDelay(char: string) {
 
 function shouldPlayTypeSound(char: string, visibleCount: number) {
   return visibleCount % 2 === 0 && !/\s|[。、，,.！？!?「」]/.test(char);
+}
+
+function splitMessagePages(text: string) {
+  const maxChars = 76;
+  const normalized = text.trim();
+  if (!normalized) return [''];
+
+  const pages: string[] = [];
+  let page = '';
+
+  for (const char of normalized) {
+    page += char;
+    const canBreak = /[。！？!?」]/.test(char) || page.length >= maxChars;
+    if (page.length >= maxChars && canBreak) {
+      pages.push(page.trim());
+      page = '';
+    }
+  }
+
+  if (page.trim()) pages.push(page.trim());
+  return pages.length ? pages : [''];
 }
 
 function LocationArt({ location }: { location: Location }) {

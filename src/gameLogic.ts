@@ -13,6 +13,7 @@ export function createInitialState(episode: Episode): GameState {
     consumedEventIds: [],
     log: [],
     narrative: episode.opening.lines.join('\n\n'),
+    activeSpeakerId: undefined,
     mode: 'scene',
   };
 }
@@ -55,6 +56,7 @@ export function applyEffects(
     addEvidence?: string[];
     setFlags?: string[];
     log?: string;
+    activeSpeakerId?: string;
     mode?: GameState['mode'];
   },
   episode: Episode,
@@ -65,6 +67,7 @@ export function applyEffects(
     evidenceIds: addUnique(state.evidenceIds, effects.addEvidence),
     flags: addUnique(state.flags, effects.setFlags),
     log: appendLog(state.log, effects.log),
+    activeSpeakerId: effects.activeSpeakerId,
     mode: effects.mode ?? state.mode,
   };
 
@@ -86,6 +89,7 @@ export function applyAutoEvents(state: GameState, episode: Episode) {
       flags: addUnique(next.flags, event.setFlags),
       consumedEventIds: addUnique(next.consumedEventIds, [event.id]),
       log: appendLog(next.log, event.log),
+      activeSpeakerId: undefined,
       mode: 'scene',
     };
     changed = true;

@@ -118,6 +118,7 @@ export type GameState = {
   consumedEventIds: string[];
   log: string[];
   narrative: string;
+  activeSpeakerId?: string;
   mode: ViewMode;
   endingId?: 'success' | 'failure';
 };
