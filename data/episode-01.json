@@ -1,0 +1,497 @@
+{
+  "id": "episode_01",
+  "title": "午前0時の遺言書",
+  "subtitle": "金庫から消えたはずの原本は、いつ消えたのか。",
+  "estimatedMinutes": 10,
+  "initialLocationId": "director_office",
+  "opening": {
+    "lines": [
+      "午前0時を少し回ったころ、事務所用の携帯が震えた。",
+      "所長の梶原からだった。",
+      "「悪い。今すぐ事務所に来られるか」",
+      "声は押し殺されていた。",
+      "「明朝提出する遺言書の原本がない。金庫に入れていたはずなんだ」",
+      "明日の朝、家庭裁判所へ持ち込む予定の自筆証書遺言。原本を失えば、依頼者家族への説明はつかない。",
+      "あなたはコートをつかみ、深夜の大宮へ向かった。"
+    ],
+    "startText": "事務所の照明は半分だけ点いていた。受付の時計は0時18分を指している。"
+  },
+  "theme": {
+    "primary": "deep-blue",
+    "tone": "legal-noir",
+    "notes": "法律事務所ミステリーらしい硬質なUI。黒、グレー、深い青、白を基調にする。"
+  },
+  "characters": [
+    {
+      "id": "director",
+      "name": "梶原誠",
+      "role": "所長弁護士",
+      "shortDescription": "金庫の管理者。施錠忘れを隠している。",
+      "isCulprit": false,
+      "artIndex": 1
+    },
+    {
+      "id": "clerk",
+      "name": "野崎真由",
+      "role": "事務員",
+      "shortDescription": "受付とコピー作業を担当。別件の書類ミスを隠している。",
+      "isCulprit": false,
+      "artIndex": 2
+    },
+    {
+      "id": "associate",
+      "name": "三上悠人",
+      "role": "共同受任の若手弁護士",
+      "shortDescription": "遺言書を最後に扱った人物。空封筒を金庫に戻してしまった。",
+      "isCulprit": false,
+      "artIndex": 3
+    },
+    {
+      "id": "son",
+      "name": "白石亮介",
+      "role": "依頼者の長男",
+      "shortDescription": "相続内容に不満を持つ相続人。会議室で封筒をすり替えた。",
+      "isCulprit": true,
+      "artIndex": 4
+    }
+  ],
+  "evidence": [
+    {
+      "id": "empty_envelope",
+      "name": "空の封筒",
+      "description": "金庫内に残っていた封筒。表には「白石家 遺言書原本」とあるが、中身は空。",
+      "isKey": false,
+      "artIndex": 0
+    },
+    {
+      "id": "crease",
+      "name": "封筒の折れ目",
+      "description": "金庫内の封筒には、遺言書の厚みによる自然な折れ目がない。",
+      "isKey": false,
+      "artIndex": 1
+    },
+    {
+      "id": "coffee_stain",
+      "name": "会議室のコーヒー染み",
+      "description": "会議室の机に残る小さな輪染み。長男の席の近くにある。",
+      "isKey": false,
+      "artIndex": 2
+    },
+    {
+      "id": "copier_log",
+      "name": "コピー機の履歴",
+      "description": "23時12分、会議室近くの複合機で遺言書がコピーされている。",
+      "isKey": false,
+      "artIndex": 3
+    },
+    {
+      "id": "camera_blind_spot",
+      "name": "防犯カメラの死角",
+      "description": "金庫前は映っているが、会議室内は映っていない。",
+      "isKey": false,
+      "artIndex": 4
+    },
+    {
+      "id": "son_statement",
+      "name": "長男の発言",
+      "description": "正式説明前に、長男が「金庫から盗まれたなら内部の人間でしょう」と口にした。",
+      "isKey": false,
+      "artIndex": 5
+    },
+    {
+      "id": "will_copy",
+      "name": "遺言書のコピー",
+      "description": "紙面の端に、封筒についた小さな染みが写り込んでいる。空封筒の染みと位置が合う。",
+      "isKey": true,
+      "artIndex": 6
+    }
+  ],
+  "flags": [
+    "found_empty_envelope",
+    "found_crease",
+    "found_coffee_stain",
+    "found_copier_log",
+    "found_camera_blind_spot",
+    "found_will_copy",
+    "heard_son_statement",
+    "talked_director",
+    "talked_clerk",
+    "talked_associate",
+    "talked_son",
+    "associate_admitted_envelope_left",
+    "clerk_confirmed_coffee",
+    "director_warned_camera_context",
+    "associate_described_copy_flow",
+    "associate_realized_empty_return",
+    "pressed_son_statement",
+    "linked_son_to_stain",
+    "confronted_son_copy",
+    "theory_shifted",
+    "final_unlocked",
+    "cleared",
+    "failed"
+  ],
+  "locations": [
+    {
+      "id": "director_office",
+      "name": "所長室",
+      "artIndex": 0,
+      "firstDescription": "重い机、壁一面の書棚、奥に小型の耐火金庫。金庫の扉は開いている。",
+      "description": "所長室。金庫、机、防犯カメラのモニターがある。",
+      "inspectActions": [
+        {
+          "id": "safe",
+          "label": "金庫",
+          "text": "金庫の中には、茶封筒が一通だけ残っていた。表には「白石家 遺言書原本」とある。しかし中身は空だった。",
+          "addEvidence": ["empty_envelope"],
+          "setFlags": ["found_empty_envelope"],
+          "log": "金庫内で空の封筒を発見した。"
+        },
+        {
+          "id": "envelope",
+          "label": "封筒",
+          "requiresFlags": ["found_empty_envelope"],
+          "text": "封筒を光にかざす。紙は薄く、平らだ。本当に遺言書が入っていた封筒なら、厚みによる折れ目や癖が残るはずだ。しかしこの封筒には、それがない。",
+          "addEvidence": ["crease"],
+          "setFlags": ["found_crease"],
+          "log": "空封筒には、原本が入っていた形跡が薄い。"
+        },
+        {
+          "id": "camera",
+          "label": "防犯カメラ",
+          "text": "モニターには金庫前の映像が残っている。だが会議室内までは映っていない。金庫の前を見張る映像はある。けれど、事件が金庫の前で起きたとは限らない。",
+          "addEvidence": ["camera_blind_spot"],
+          "setFlags": ["found_camera_blind_spot"],
+          "log": "防犯カメラには会議室内の死角がある。"
+        },
+        {
+          "id": "desk",
+          "label": "所長の机",
+          "text": "机上には明朝の提出予定表が置かれている。白石家の件は午前9時30分。余裕はない。",
+          "log": "提出予定は明朝9時30分。原本確認の猶予はほとんどない。"
+        }
+      ]
+    },
+    {
+      "id": "meeting_room",
+      "name": "会議室",
+      "artIndex": 1,
+      "firstDescription": "六人掛けの長机と、ホワイトボード。机の端には乾いたコーヒーの輪染みが残っている。",
+      "description": "会議室。打合せに使われた長机があり、椅子の一つだけが少し引かれている。",
+      "inspectActions": [
+        {
+          "id": "table",
+          "label": "長机",
+          "text": "長机の端に、乾いたコーヒーの輪染みが残っている。拭き取られた跡はあるが、完全には消えていない。",
+          "addEvidence": ["coffee_stain"],
+          "setFlags": ["found_coffee_stain"],
+          "log": "会議室の机にコーヒー染みを発見した。"
+        },
+        {
+          "id": "chair",
+          "label": "椅子",
+          "text": "椅子の一つだけが机から少し離れている。長男の白石亮介が座っていた位置だと、野崎が言っていた。",
+          "log": "長男は会議室で机の端に座っていた。"
+        },
+        {
+          "id": "whiteboard",
+          "label": "ホワイトボード",
+          "text": "ホワイトボードには「原本確認」「コピー」「金庫」と走り書きがある。コピー後に金庫へ戻す流れは、事前に確認されていたようだ。",
+          "log": "コピー後に金庫へ戻す予定が共有されていた。"
+        },
+        {
+          "id": "trash",
+          "label": "ゴミ箱",
+          "text": "丸められたメモや紙コップはあるが、遺言書らしい紙はない。",
+          "log": "会議室のゴミ箱に遺言書はない。"
+        }
+      ]
+    },
+    {
+      "id": "copier_area",
+      "name": "コピー機前",
+      "artIndex": 2,
+      "firstDescription": "複合機の液晶が薄く光っている。深夜の廊下で、機械音だけが妙に大きく感じられる。",
+      "description": "コピー機前。コピー履歴と出力トレイを確認できる。",
+      "inspectActions": [
+        {
+          "id": "history",
+          "label": "コピー履歴",
+          "text": "履歴には23時12分、白石家の遺言書がコピーされた記録が残っている。場所は会議室に近い複合機。所長室内の小型機ではない。",
+          "addEvidence": ["copier_log"],
+          "setFlags": ["found_copier_log"],
+          "log": "遺言書は23時12分、会議室近くの複合機でコピーされていた。"
+        },
+        {
+          "id": "tray",
+          "label": "出力トレイ",
+          "requiresFlags": ["found_copier_log"],
+          "text": "トレイの横に、確認用のコピーが一部だけ残っている。紙面の端に、封筒の縁らしき影と、小さな染みが写り込んでいる。",
+          "addEvidence": ["will_copy"],
+          "setFlags": ["found_will_copy"],
+          "log": "遺言書のコピーに、封筒端の小さな染みが写っていた。"
+        },
+        {
+          "id": "scanner",
+          "label": "スキャン台",
+          "text": "ガラス面に紙粉が残っている。慌ててコピーしたというより、通常の事務作業の範囲に見える。",
+          "log": "コピー作業そのものに不自然さは少ない。"
+        }
+      ]
+    },
+    {
+      "id": "reception",
+      "name": "受付",
+      "artIndex": 3,
+      "firstDescription": "受付カウンターには来客簿と内線電話がある。夜間出入りの記録もここで確認できる。",
+      "description": "受付。来客簿、内線電話、夜間出入り記録が置かれている。",
+      "inspectActions": [
+        {
+          "id": "guest_book",
+          "label": "来客簿",
+          "text": "来客簿には白石亮介の名前。来所時刻は22時48分、退所時刻は23時20分。",
+          "log": "長男は22時48分から23時20分まで事務所にいた。"
+        },
+        {
+          "id": "entry_record",
+          "label": "出入り記録",
+          "text": "深夜に事務所へ出入りしたのは、所長、野崎、三上、白石亮介の4人だけだ。",
+          "log": "容疑者は4人に絞られた。"
+        },
+        {
+          "id": "counter",
+          "label": "受付カウンター",
+          "text": "カウンターの下に別件の書類が挟まっている。野崎が気にしていたのは、このミスかもしれない。",
+          "log": "事務員の不自然な態度は、別件の書類ミスが原因らしい。"
+        }
+      ]
+    },
+    {
+      "id": "pantry",
+      "name": "給湯室",
+      "artIndex": 4,
+      "firstDescription": "狭い給湯室。流し台の横に、紙コップとコーヒーの粉が置かれている。",
+      "description": "給湯室。会議室に出された飲み物の手がかりがありそうだ。",
+      "inspectActions": [
+        {
+          "id": "cups",
+          "label": "紙コップ",
+          "text": "紙コップは四つ使われている。会議室での打合せに出したものだろう。",
+          "log": "会議室にはコーヒーが出されていた。"
+        },
+        {
+          "id": "coffee",
+          "label": "コーヒー粉",
+          "text": "コーヒー粉の袋が開いたままだ。野崎が慌てて片付けたように見える。",
+          "log": "野崎は会議室にコーヒーを出していた可能性が高い。"
+        },
+        {
+          "id": "sink",
+          "label": "流し台",
+          "text": "流し台には濃いコーヒーの跡が残っている。封筒に染みが付いたなら、この時間帯の会議室だろう。",
+          "log": "封筒の染みは、会議室で付いた可能性がある。"
+        }
+      ]
+    }
+  ],
+  "talks": [
+    {
+      "characterId": "director",
+      "id": "director_first",
+      "label": "事情を聞く",
+      "availableAt": ["director_office"],
+      "text": "「金庫に入れたのは間違いない。少なくとも、そう報告を受けている」所長は言葉を選んだ。「暗証番号を知っているのは、私と野崎君、それから三上君だけだ」",
+      "setFlags": ["talked_director"],
+      "log": "金庫を開けられるのは、所長、事務員、三上の3人。"
+    },
+    {
+      "characterId": "clerk",
+      "id": "clerk_first",
+      "label": "事情を聞く",
+      "availableAt": ["reception", "pantry"],
+      "text": "「コピーはしました。でも原本は三上先生が持っていました」野崎は来客簿の方をちらりと見る。「私は受付と給湯室を行ったり来たりしていて、会議室の中をずっと見ていたわけではありません」",
+      "setFlags": ["talked_clerk"],
+      "log": "野崎は会議室内を見ていない時間がある。"
+    },
+    {
+      "characterId": "clerk",
+      "id": "clerk_coffee",
+      "label": "コーヒーについて聞く",
+      "availableAt": ["reception", "pantry"],
+      "requiresFlags": ["found_coffee_stain"],
+      "text": "「はい、会議室にコーヒーを出しました。白石さんが、少しこぼしたんです。でも封筒にかかったかどうかまでは……すみません、見ていません」",
+      "setFlags": ["clerk_confirmed_coffee"],
+      "log": "長男は会議室でコーヒーをこぼしていた。"
+    },
+    {
+      "characterId": "associate",
+      "id": "associate_first",
+      "label": "事情を聞く",
+      "availableAt": ["director_office", "meeting_room", "copier_area"],
+      "text": "「確かに私が最後に扱いました」三上は青ざめている。「コピーを取って、封筒に戻して、それを金庫へ。手順としては、それだけです」",
+      "setFlags": ["talked_associate"],
+      "log": "三上は遺言書を最後に扱ったと認めた。"
+    },
+    {
+      "characterId": "associate",
+      "id": "associate_envelope_left",
+      "label": "会議室の封筒について聞く",
+      "availableAt": ["meeting_room", "copier_area"],
+      "requiresFlags": ["found_copier_log"],
+      "text": "「会議室で、白石さんに説明していました。コピーを取る前後に、封筒を机へ置いた時間はあります。でも、ほんの数分です。まさか中身が入れ替わっていたなんて」",
+      "setFlags": ["associate_admitted_envelope_left"],
+      "log": "三上は会議室で封筒を机上に置いていた。"
+    },
+    {
+      "characterId": "son",
+      "id": "son_first",
+      "label": "事情を聞く",
+      "availableAt": ["meeting_room", "reception"],
+      "text": "「私に疑いを向けるのは筋違いでしょう」白石亮介は疲れた顔で言った。「金庫から盗まれたなら、内部の人間の問題じゃないですか」",
+      "addEvidence": ["son_statement"],
+      "setFlags": ["talked_son", "heard_son_statement"],
+      "log": "長男は、正式説明前に「金庫から盗まれた」と表現した。"
+    },
+    {
+      "characterId": "son",
+      "id": "son_motive",
+      "label": "遺言内容について聞く",
+      "availableAt": ["meeting_room", "reception"],
+      "requiresFlags": ["talked_son"],
+      "text": "「父の面倒を見たのは私です。なのに、自宅は妹に、ですか」声には怒りよりも疲れがあった。「納得できないことを、納得しろと言われても無理です」",
+      "log": "長男は遺言内容に強い不満を持っている。"
+    }
+  ],
+  "presentReactions": [
+    {
+      "characterId": "director",
+      "evidenceId": "empty_envelope",
+      "text": "梶原は封筒を見つめた。「中身だけ抜いたなら、犯人は金庫の中で作業したことになる。だが映像には、その時間がない」",
+      "log": "所長は、金庫内で中身だけ抜かれた可能性に疑問を示した。"
+    },
+    {
+      "characterId": "director",
+      "evidenceId": "camera_blind_spot",
+      "text": "「会議室は映らない。そこは依頼者との面談に使うから、録画対象から外している。つまり、金庫前の映像だけで事件を決めつけるな、ということか」",
+      "setFlags": ["director_warned_camera_context"],
+      "log": "所長に防犯カメラの死角を確認した。"
+    },
+    {
+      "characterId": "clerk",
+      "evidenceId": "coffee_stain",
+      "text": "「白石さんの席の近くです。私が拭きました。封筒？ そういえば、机の端に置かれていたような……」",
+      "setFlags": ["clerk_confirmed_coffee"],
+      "log": "野崎に染みを示し、長男の席と封筒の位置を確認した。"
+    },
+    {
+      "characterId": "associate",
+      "evidenceId": "copier_log",
+      "text": "「23時12分。はい、その時刻なら私がコピーしました。原本を封筒から出して、コピーして、封筒に戻しました。そのあと、会議室で説明を続けました」",
+      "setFlags": ["associate_described_copy_flow"],
+      "log": "三上はコピー後も会議室で封筒を扱っていた。"
+    },
+    {
+      "characterId": "associate",
+      "evidenceId": "crease",
+      "text": "三上は息をのんだ。「金庫に戻した時点で、もう空だった……？ 私は中身を確認しないまま、封筒だけを戻したのか」",
+      "setFlags": ["associate_realized_empty_return"],
+      "log": "三上は、空封筒を金庫へ戻した可能性に気づいた。"
+    },
+    {
+      "characterId": "son",
+      "evidenceId": "son_statement",
+      "text": "「金庫から盗まれた、とはまだ説明していませんでした」白石の眉がわずかに動く。「あなたは、なぜ事件の形を先に知っていたんですか」",
+      "setFlags": ["pressed_son_statement"],
+      "log": "白石に、金庫という言葉を先に出した矛盾を突いた。"
+    },
+    {
+      "characterId": "son",
+      "evidenceId": "will_copy",
+      "requiresFlags": ["theory_shifted"],
+      "text": "コピーの端には、小さな染みが写っている。空封筒の染みと、位置が合う。「コピー時点で、この封筒は会議室にあった。そこですり替えが起きた」白石は答えなかった。",
+      "setFlags": ["confronted_son_copy"],
+      "log": "白石にコピーの染みを突きつけ、会議室でのすり替えを示した。"
+    },
+    {
+      "characterId": "son",
+      "evidenceId": "will_copy",
+      "text": "コピーを示しても、白石は黙ったままだ。これだけでは、まだ金庫ではなく会議室で起きたことを押し切れない。封筒、染み、コピーの順番をもう少し固める必要がある。",
+      "log": "白石にコピーを示したが、まだ決め手として押し切れない。"
+    },
+    {
+      "characterId": "son",
+      "evidenceId": "coffee_stain",
+      "text": "「あなたの席の近くでコーヒーがこぼれた。その近くに封筒があった。染みは、ただの汚れではありません。封筒が会議室にあったことを示す印です」",
+      "setFlags": ["linked_son_to_stain"],
+      "log": "白石と会議室の染みを結びつけた。"
+    }
+  ],
+  "events": [
+    {
+      "id": "theory_shift",
+      "kind": "auto",
+      "requiresFlags": ["found_crease", "clerk_confirmed_coffee", "found_copier_log", "associate_admitted_envelope_left", "associate_realized_empty_return"],
+      "text": "金庫から盗まれた。そう考えるほど、映像と供述は噛み合わない。だが、もし逆なら。金庫に戻された時点で、封筒がすでに空だったなら。事件の場所は金庫ではない。会議室だ。",
+      "setFlags": ["theory_shifted"],
+      "log": "金庫破りではなく、封筒すり替えの可能性が浮上した。"
+    },
+    {
+      "id": "unlock_final",
+      "kind": "auto",
+      "requiresFlags": ["found_empty_envelope", "found_will_copy", "heard_son_statement", "pressed_son_statement", "linked_son_to_stain", "confronted_son_copy"],
+      "text": "必要な材料はそろった。金庫、封筒、コピー、会議室。あとは、事件の順番を並べ直すだけだ。",
+      "setFlags": ["final_unlocked"],
+      "log": "推理するコマンドが開放された。"
+    }
+  ],
+  "deduction": {
+    "requiresFlags": ["final_unlocked"],
+    "questions": [
+      {
+        "id": "culprit",
+        "prompt": "遺言書を持ち出した人物は誰か。",
+        "choices": [
+          {"id": "director", "label": "梶原誠"},
+          {"id": "clerk", "label": "野崎真由"},
+          {"id": "associate", "label": "三上悠人"},
+          {"id": "son", "label": "白石亮介"}
+        ],
+        "answer": "son"
+      },
+      {
+        "id": "timing",
+        "prompt": "遺言書が消えた正しいタイミングはいつか。",
+        "choices": [
+          {"id": "unlocked_safe", "label": "所長が金庫を施錠し忘れたとき"},
+          {"id": "clerk_left", "label": "野崎が受付を離れたとき"},
+          {"id": "meeting_swap", "label": "三上がコピー後、会議室で封筒を机に置いたとき"},
+          {"id": "after_midnight", "label": "金庫が開けられた深夜0時過ぎ"}
+        ],
+        "answer": "meeting_swap"
+      },
+      {
+        "id": "proof",
+        "prompt": "封筒すり替えを示す決定的証拠はどれか。",
+        "choices": [
+          {"id": "director_lapse", "label": "所長の施錠忘れ"},
+          {"id": "camera_blind_spot", "label": "防犯カメラの死角"},
+          {"id": "will_copy", "label": "コピーに写った封筒の染み"},
+          {"id": "guest_book", "label": "受付の来客簿"}
+        ],
+        "answer": "will_copy"
+      }
+    ]
+  },
+  "endings": {
+    "success": {
+      "id": "success",
+      "setFlags": ["cleared"],
+      "text": "「白石さん。あなたは金庫を開けていない」白石亮介は顔を上げた。「開ける必要がなかったからです」会議室。コピー後の数分。机の端に置かれた封筒。あなたはコピーを示した。「この染みは、空封筒の染みと一致します。コピーの時点で、本物の封筒は会議室にあった。そこであなたは、用意していた空封筒とすり替えた」白石の肩が落ちた。「父の面倒を見たのは、私です。なのに、家は妹に渡すなんて」「納得できないなら、手続の中で争うべきでした」あなたは静かに言った。「証拠を隠しても、あなたの言い分が強くなるわけではありません」遺言書は、事務所近くのコインロッカーから見つかった。夜明け前、原本は戻った。だが、家族の争いは、まだ終わっていない。"
+    },
+    "failure": {
+      "id": "failure",
+      "setFlags": ["failed"],
+      "text": "推理は一見つながっているように見えた。しかし、決定的な一点が足りない。金庫を開けられる人物に目を奪われるほど、会議室で起きた数分が見えなくなる。事件は、金庫の中で始まったのではない。もう一度、コピーと封筒を見直す必要がある。"
+    }
+  }
+}
