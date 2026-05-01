@@ -147,7 +147,6 @@ button {
 .title-location-strip {
   position: absolute;
   inset: 0;
-  background-image: url("/assets/locations-atlas.png");
   background-position: 0 50%;
   background-size: cover;
   filter: brightness(0.72) saturate(0.88);

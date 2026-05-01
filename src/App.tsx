@@ -40,10 +40,12 @@ const SOUND_STORAGE_KEY = 'midnight-will:sound:v1';
 const locationsById = new Map(episode.locations.map((location) => [location.id, location]));
 const charactersById = new Map(episode.characters.map((character) => [character.id, character]));
 const evidenceById = new Map(episode.evidence.map((item) => [item.id, item]));
+const assetUrl = (path: string) => `${import.meta.env.BASE_URL}${path}`;
+
 const ATLAS = {
-  locations: '/assets/locations-atlas.png',
-  evidence: '/assets/evidence-atlas.png',
-  characters: '/assets/characters-atlas.png',
+  locations: assetUrl('assets/locations-atlas.png'),
+  evidence: assetUrl('assets/evidence-atlas.png'),
+  characters: assetUrl('assets/characters-atlas.png'),
 };
 
 const commandItems: Array<{ mode: ViewMode; label: string; icon: typeof MapPin }> = [
@@ -455,7 +457,7 @@ function TitleScreen({
         <h1>{episode.title}</h1>
         <p className="subtitle">{episode.subtitle}</p>
         <div className="title-art" aria-hidden="true">
-          <div className="title-location-strip" />
+          <div className="title-location-strip" style={{ backgroundImage: `url("${ATLAS.locations}")` }} />
           <div className="title-character-lineup">
             {episode.characters.map((character) => (
               <CharacterSprite key={character.id} character={character} size="medium" />
