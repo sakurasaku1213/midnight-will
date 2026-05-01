@@ -176,6 +176,14 @@ button {
   margin: 0 0 8px;
 }
 
+.legal-disclaimer {
+  margin: 18px 0 0;
+  max-width: 560px;
+  color: var(--muted);
+  font-size: 0.82rem;
+  line-height: 1.7;
+}
+
 .primary-button,
 .secondary-button,
 .icon-button,
@@ -205,6 +213,7 @@ button {
   color: #0d1521;
   border-color: #e8f0ff;
   font-weight: 700;
+  text-decoration: none;
 }
 
 .primary-button.compact {
@@ -220,6 +229,7 @@ button {
   padding: 0 18px;
   background: #181d27;
   color: var(--text);
+  text-decoration: none;
 }
 
 .secondary-button.compact {
@@ -733,6 +743,40 @@ button {
   grid-column: 1 / -1;
 }
 
+.release-links {
+  grid-column: 1 / -1;
+  border: 1px solid rgb(143 184 255 / 0.28);
+  border-radius: 6px;
+  padding: 14px;
+  background: rgb(12 16 23 / 0.72);
+}
+
+.release-kicker {
+  margin: 0 0 5px;
+  color: var(--warn);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.release-links h3 {
+  margin: 0 0 8px;
+  color: var(--paper);
+  font-size: 1rem;
+}
+
+.release-links p {
+  margin: 0 0 12px;
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.7;
+}
+
+.release-link-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
 .deduction-failure-panel {
   display: grid;
   gap: 14px;
@@ -1159,6 +1203,10 @@ select {
   .opening-actions,
   .ending-actions,
   .failure-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .release-link-grid {
     grid-template-columns: 1fr;
   }
 

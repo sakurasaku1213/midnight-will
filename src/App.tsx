@@ -7,6 +7,7 @@ import {
   ChevronRight,
   CheckCircle2,
   FileSearch,
+  ExternalLink,
   Home,
   List,
   MapPin,
@@ -46,6 +47,12 @@ const ATLAS = {
   locations: assetUrl('assets/locations-atlas.png'),
   evidence: assetUrl('assets/evidence-atlas.png'),
   characters: assetUrl('assets/characters-atlas.png'),
+};
+
+const PUBLIC_LINKS = {
+  note: 'https://note.com/ai_legal_desk',
+  booth: 'https://booth.pm/ja/search/%E5%8D%88%E5%89%8D0%E6%99%82%E3%81%AE%E9%81%BA%E8%A8%80%E6%9B%B8',
+  github: 'https://github.com/sakurasaku1213/midnight-will',
 };
 
 const commandItems: Array<{ mode: ViewMode; label: string; icon: typeof MapPin }> = [
@@ -469,6 +476,9 @@ function TitleScreen({
             <p key={line}>{line}</p>
           ))}
         </div>
+        <p className="legal-disclaimer">
+          このゲームは創作物です。表示内容は法律相談・法的助言ではありません。実在の事件・人物・団体とは関係ありません。
+        </p>
         <button className="primary-button title-button" type="button" onClick={onStart}>
           <FileSearch size={19} />
           調査を始める
@@ -689,6 +699,7 @@ function EndingProgressPanel({
           </button>
         ) : (
           <>
+            <ReleaseLinks />
             <button className="secondary-button compact" type="button" onClick={onReset}>
               <Home size={18} />
               タイトルへ
@@ -701,6 +712,30 @@ function EndingProgressPanel({
         )}
       </div>
     </div>
+  );
+}
+
+function ReleaseLinks() {
+  return (
+    <section className="release-links" aria-label="制作資料と関連リンク">
+      <p className="release-kicker">第1話クリア後</p>
+      <h3>制作過程と資料</h3>
+      <p>制作記事、資料パック、ソースコードを公開導線としてまとめています。</p>
+      <div className="release-link-grid">
+        <a className="secondary-button compact" href={PUBLIC_LINKS.note} target="_blank" rel="noreferrer">
+          note
+          <ExternalLink size={16} />
+        </a>
+        <a className="primary-button compact" href={PUBLIC_LINKS.booth} target="_blank" rel="noreferrer">
+          BOOTH資料
+          <ExternalLink size={16} />
+        </a>
+        <a className="secondary-button compact" href={PUBLIC_LINKS.github} target="_blank" rel="noreferrer">
+          GitHub
+          <ExternalLink size={16} />
+        </a>
+      </div>
+    </section>
   );
 }
 
