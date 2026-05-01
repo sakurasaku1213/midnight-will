@@ -1,5 +1,6 @@
 export type SoundCue =
   | 'start'
+  | 'opening'
   | 'type'
   | 'command'
   | 'move'
@@ -7,6 +8,8 @@ export type SoundCue =
   | 'evidence'
   | 'talk'
   | 'present'
+  | 'reveal'
+  | 'clear'
   | 'success'
   | 'failure'
   | 'reset';
@@ -73,6 +76,11 @@ class SoundEngine {
         this.tone(247, { duration: 0.18, volume: 0.19, startOffset: 0.08, type: 'triangle' });
         this.tone(330, { duration: 0.26, volume: 0.16, startOffset: 0.16, type: 'sine' });
         break;
+      case 'opening':
+        this.tone(880, { duration: 0.08, volume: 0.11, type: 'square' });
+        this.tone(880, { duration: 0.08, volume: 0.1, startOffset: 0.16, type: 'square' });
+        this.tone(196, { duration: 0.42, volume: 0.1, startOffset: 0.34, type: 'triangle' });
+        break;
       case 'type':
         this.tone(1120 + Math.random() * 120, { duration: 0.018, volume: 0.035, type: 'square' });
         break;
@@ -99,6 +107,17 @@ class SoundEngine {
       case 'present':
         this.tone(294, { duration: 0.18, volume: 0.16, endFrequency: 392, type: 'sawtooth' });
         this.tone(784, { duration: 0.08, volume: 0.08, startOffset: 0.18, type: 'square' });
+        break;
+      case 'reveal':
+        [196, 392, 587, 784].forEach((frequency, index) => {
+          this.tone(frequency, { duration: 0.18, volume: 0.15, startOffset: index * 0.08, type: 'square' });
+        });
+        this.noise(0.16, 0.035, 2400, 0.02);
+        break;
+      case 'clear':
+        [523, 659, 784, 988, 1175].forEach((frequency, index) => {
+          this.tone(frequency, { duration: 0.24, volume: 0.12, startOffset: index * 0.1, type: 'triangle' });
+        });
         break;
       case 'success':
         [523, 659, 784, 1047].forEach((frequency, index) => {

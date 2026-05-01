@@ -3,15 +3,21 @@ import type { KeyboardEvent } from 'react';
 import {
   BookOpen,
   Briefcase,
+  ChevronLeft,
+  ChevronRight,
   CheckCircle2,
   FileSearch,
+  Home,
   List,
   MapPin,
   MessageSquareText,
+  PhoneCall,
+  Play,
   RotateCcw,
   Scale,
   Search,
   ShieldQuestion,
+  SkipForward,
   Volume2,
   VolumeX,
   XCircle,
@@ -19,6 +25,7 @@ import {
 import episodeData from '../data/episode-01.json';
 import {
   applyEffects,
+  addUnique,
   canRunInteraction,
   createInitialState,
   hasAllFlags,
@@ -26,7 +33,7 @@ import {
   saveState,
 } from './gameLogic';
 import { soundEngine, type SoundCue } from './sound';
-import type { Character, DeductionQuestion, Ending, Episode, Evidence, GameState, InspectAction, Location, Talk, ViewMode } from './types';
+import type { Character, DeductionQuestion, Ending, EndingScene, Episode, Evidence, GameState, InspectAction, Location, OpeningScene, Talk, ViewMode } from './types';
 
 const episode = episodeData as Episode;
 const SOUND_STORAGE_KEY = 'midnight-will:sound:v1';
@@ -56,9 +63,41 @@ function App() {
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [soundEnabled, setSoundEnabled] = useState(() => window.localStorage.getItem(SOUND_STORAGE_KEY) !== 'off');
 
-  const currentLocation = locationsById.get(gameState.currentLocationId) ?? episode.locations[0];
+  const openingScenes = episode.opening.scenes;
+  const baseLocation = locationsById.get(gameState.currentLocationId) ?? episode.locations[0];
   const finalUnlocked = gameState.flags.includes('final_unlocked');
   const hasEvidence = gameState.evidenceIds.length > 0;
+  const openingSceneIndex = clampIndex(gameState.openingSceneIndex ?? 0, openingScenes.length);
+  const activeOpeningScene = gameState.mode === 'opening' ? openingScenes[openingSceneIndex] : undefined;
+  const successEnding = episode.endings.success;
+  const endingSceneIndex = clampIndex(gameState.endingSceneIndex ?? 0, successEnding.scenes.length);
+  const activeEndingScene =
+    gameState.mode === 'ending' && gameState.endingId === 'success' ? successEnding.scenes[endingSceneIndex] : undefined;
+  const activeStoryScene = activeOpeningScene ?? activeEndingScene;
+  const sceneLocation = activeStoryScene?.locationId ? locationsById.get(activeStoryScene.locationId) : undefined;
+  const currentLocation = sceneLocation ?? baseLocation;
+  const storyTitle = activeStoryScene?.title ?? currentLocation.name;
+  const storyNarrative = activeStoryScene?.text ?? gameState.narrative;
+  const storySpeaker = activeStoryScene?.speakerId
+    ? charactersById.get(activeStoryScene.speakerId)
+    : gameState.activeSpeakerId
+      ? charactersById.get(gameState.activeSpeakerId)
+      : undefined;
+  const isOpening = gameState.mode === 'opening';
+  const openingComplete = isOpening && openingSceneIndex >= openingScenes.length - 1;
+  const isEnding = gameState.mode === 'ending' && gameState.endingId === 'success';
+  const endingComplete = isEnding && endingSceneIndex >= successEnding.scenes.length - 1;
+  const statusLabel = endingComplete
+    ? '第1話 完'
+    : isEnding
+      ? '真相解明中'
+      : openingComplete
+        ? '調査開始前'
+        : isOpening
+          ? '導入'
+          : finalUnlocked
+            ? '最終推理可能'
+            : '調査継続';
 
   useEffect(() => {
     saveState(gameState);
@@ -81,14 +120,41 @@ function App() {
   }
 
   function startGame() {
+    const firstScene = openingScenes[0];
+    if (!firstScene) {
+      beginInvestigation();
+      return;
+    }
+    playSound('opening');
+    updateState((state) => ({
+      ...state,
+      started: true,
+      currentLocationId: firstScene.locationId ?? episode.initialLocationId,
+      visitedLocationIds: addUnique(state.visitedLocationIds, [firstScene.locationId ?? episode.initialLocationId]),
+      narrative: firstScene.text,
+      log: [...state.log, '午前0時過ぎ、所長から緊急の連絡を受けた。'],
+      activeSpeakerId: firstScene.speakerId,
+      mode: 'opening',
+      openingSceneIndex: 0,
+      endingId: undefined,
+      endingSceneIndex: undefined,
+    }));
+  }
+
+  function beginInvestigation() {
     playSound('start');
     updateState((state) => ({
       ...state,
       started: true,
+      currentLocationId: episode.initialLocationId,
+      visitedLocationIds: addUnique(state.visitedLocationIds, [episode.initialLocationId]),
       narrative: episode.opening.startText,
       log: [...state.log, '調査開始。午前0時18分、事務所に到着した。'],
       activeSpeakerId: undefined,
       mode: 'scene',
+      openingSceneIndex: undefined,
+      endingId: undefined,
+      endingSceneIndex: undefined,
     }));
   }
 
@@ -103,7 +169,7 @@ function App() {
 
   function setMode(mode: ViewMode) {
     playSound('command');
-    updateState((state) => ({ ...state, mode }));
+    updateState((state) => ({ ...state, mode, openingSceneIndex: undefined, endingId: undefined, endingSceneIndex: undefined }));
   }
 
   function moveTo(locationId: string) {
@@ -120,6 +186,9 @@ function App() {
         log: [...state.log, `${location.name}へ移動した。`],
         activeSpeakerId: undefined,
         mode: 'scene',
+        openingSceneIndex: undefined,
+        endingId: undefined,
+        endingSceneIndex: undefined,
       };
     });
   }
@@ -187,9 +256,66 @@ function App() {
 
   function submitDeduction() {
     const correct = episode.deduction.questions.every((question) => answers[question.id] === question.answer);
-    playSound(correct ? 'success' : 'failure');
-    const ending = correct ? episode.endings.success : episode.endings.failure;
-    updateState((state) => applyEnding(state, ending, correct ? 'success' : 'failure'));
+    playSound(correct ? 'reveal' : 'failure');
+    if (correct) {
+      updateState((state) => applySuccessEnding(state, episode.endings.success));
+      return;
+    }
+    updateState((state) => applyDeductionFailure(state, episode.endings.failure));
+  }
+
+  function showOpeningScene(index: number) {
+    const nextIndex = clampIndex(index, openingScenes.length);
+    const nextScene = openingScenes[nextIndex];
+    if (!nextScene) return;
+    playSound(nextScene.kind === 'start' ? 'start' : 'command');
+    updateState((state) => applyOpeningScene(state, nextScene, nextIndex));
+  }
+
+  function showEndingScene(index: number) {
+    const nextIndex = clampIndex(index, successEnding.scenes.length);
+    const nextScene = successEnding.scenes[nextIndex];
+    if (!nextScene) return;
+    playSound(nextScene.kind === 'clear' ? 'clear' : 'command');
+    updateState((state) => applyEndingScene(state, nextScene, nextIndex));
+  }
+
+  function retryDeduction() {
+    playSound('command');
+    updateState((state) => ({
+      ...state,
+      mode: 'deduction',
+      endingId: undefined,
+      endingSceneIndex: undefined,
+      activeSpeakerId: undefined,
+      narrative: '推理を組み直す。金庫ではなく、会議室で起きた数分をもう一度整理する。',
+    }));
+  }
+
+  function returnToInvestigation() {
+    playSound('command');
+    updateState((state) => ({
+      ...state,
+      mode: 'scene',
+      endingId: undefined,
+      endingSceneIndex: undefined,
+      activeSpeakerId: undefined,
+      narrative: currentLocation.description,
+    }));
+  }
+
+  function restartInvestigation() {
+    playSound('start');
+    window.localStorage.removeItem('midnight-will:save:v1');
+    setAnswers({});
+    setSelectedCharacterId(episode.characters[0]?.id ?? '');
+    setSelectedEvidenceId('');
+    setGameState({
+      ...createInitialState(episode),
+      started: true,
+      narrative: episode.opening.startText,
+      log: ['調査開始。午前0時18分、事務所に到着した。'],
+    });
   }
 
   function toggleSound() {
@@ -213,62 +339,87 @@ function App() {
       <Header
         currentLocationName={currentLocation.name}
         evidenceCount={gameState.evidenceIds.length}
-        finalUnlocked={finalUnlocked}
+        statusLabel={statusLabel}
         soundEnabled={soundEnabled}
         onReset={resetGame}
         onToggleSound={toggleSound}
       />
       <section className="workspace" aria-label="ゲーム画面">
-        <section className="story-panel" aria-live="polite">
+        <section
+          className={isEnding ? 'story-panel ending-story-panel' : isOpening ? 'story-panel opening-story-panel' : 'story-panel'}
+          aria-live="polite"
+        >
           <div className="case-strip">
             <Scale aria-hidden="true" size={18} />
-            <span>第1話</span>
+            <span>{isEnding ? '終章' : isOpening ? '導入' : '第1話'}</span>
           </div>
-          <h1>{currentLocation.name}</h1>
+          {isOpening ? <OpeningBanner scene={activeOpeningScene} index={openingSceneIndex} total={openingScenes.length} /> : null}
+          {isEnding ? <EndingBanner scene={activeEndingScene} index={endingSceneIndex} total={successEnding.scenes.length} /> : null}
+          <h1>{storyTitle}</h1>
           <LocationArt location={currentLocation} />
           <NarrativeText
-            text={gameState.narrative}
-            speaker={gameState.activeSpeakerId ? charactersById.get(gameState.activeSpeakerId) : undefined}
+            text={storyNarrative}
+            speaker={storySpeaker}
             soundEnabled={soundEnabled}
           />
-          {gameState.mode === 'ending' ? (
-            <button className="primary-button" type="button" onClick={resetGame}>
-              <RotateCcw size={18} />
-              もう一度調査する
-            </button>
-          ) : null}
         </section>
 
-        <aside className="command-panel">
-          <CommandBar
-            mode={gameState.mode}
-            finalUnlocked={finalUnlocked}
-            hasEvidence={hasEvidence}
-            onSelect={setMode}
-          />
-          <ActionPane
-            state={gameState}
-            mode={gameState.mode}
-            currentLocation={currentLocation}
-            acquiredEvidenceIds={gameState.evidenceIds}
-            selectedCharacterId={selectedCharacterId}
-            selectedEvidenceId={selectedEvidenceId}
-            answers={answers}
-            onMove={moveTo}
-            onInspect={runInspect}
-            onTalk={runTalk}
-            onCharacterChange={setSelectedCharacterId}
-            onEvidenceChange={setSelectedEvidenceId}
-            onPresent={presentEvidence}
-            onAnswer={setAnswers}
-            onSubmitDeduction={submitDeduction}
-          />
+        <aside className={isEnding || isOpening ? 'command-panel ending-command-panel' : 'command-panel'}>
+          {isOpening ? (
+            <OpeningProgressPanel
+              scenes={openingScenes}
+              currentIndex={openingSceneIndex}
+              onPrevious={() => showOpeningScene(openingSceneIndex - 1)}
+              onNext={() => showOpeningScene(openingSceneIndex + 1)}
+              onSkip={beginInvestigation}
+              onStart={beginInvestigation}
+            />
+          ) : isEnding ? (
+            <EndingProgressPanel
+              ending={successEnding}
+              currentIndex={endingSceneIndex}
+              onPrevious={() => showEndingScene(endingSceneIndex - 1)}
+              onNext={() => showEndingScene(endingSceneIndex + 1)}
+              onReset={resetGame}
+              onRestart={restartInvestigation}
+            />
+          ) : (
+            <>
+              <CommandBar
+                mode={gameState.mode}
+                finalUnlocked={finalUnlocked}
+                hasEvidence={hasEvidence}
+                onSelect={setMode}
+              />
+              <ActionPane
+                state={gameState}
+                mode={gameState.mode}
+                currentLocation={currentLocation}
+                acquiredEvidenceIds={gameState.evidenceIds}
+                selectedCharacterId={selectedCharacterId}
+                selectedEvidenceId={selectedEvidenceId}
+                answers={answers}
+                deductionFailed={gameState.mode === 'deduction' && gameState.endingId === 'failure'}
+                failureScene={episode.endings.failure.scenes[0]}
+                onMove={moveTo}
+                onInspect={runInspect}
+                onTalk={runTalk}
+                onCharacterChange={setSelectedCharacterId}
+                onEvidenceChange={setSelectedEvidenceId}
+                onPresent={presentEvidence}
+                onAnswer={setAnswers}
+                onSubmitDeduction={submitDeduction}
+                onRetryDeduction={retryDeduction}
+                onReturnToInvestigation={returnToInvestigation}
+              />
+            </>
+          )}
         </aside>
       </section>
       <footer className="status-bar">
         <span>証拠 {gameState.evidenceIds.length} / {episode.evidence.length}</span>
         <span>ログ {gameState.log.length}</span>
-        <span>{finalUnlocked ? '最終推理可能' : '調査継続'}</span>
+        <span>{statusLabel}</span>
       </footer>
     </main>
   );
@@ -328,14 +479,14 @@ function TitleScreen({
 function Header({
   currentLocationName,
   evidenceCount,
-  finalUnlocked,
+  statusLabel,
   soundEnabled,
   onReset,
   onToggleSound,
 }: {
   currentLocationName: string;
   evidenceCount: number;
-  finalUnlocked: boolean;
+  statusLabel: string;
   soundEnabled: boolean;
   onReset: () => void;
   onToggleSound: () => void;
@@ -351,7 +502,7 @@ function Header({
       <div className="topbar-meta" aria-label="進行状況">
         <span>{currentLocationName}</span>
         <span>証拠 {evidenceCount}/{episode.evidence.length}</span>
-        <span>{finalUnlocked ? '推理可能' : '調査中'}</span>
+        <span>{statusLabel}</span>
       </div>
       <div className="topbar-actions">
         <button
@@ -403,6 +554,154 @@ function CommandBar({
   );
 }
 
+function OpeningBanner({ scene, index, total }: { scene?: OpeningScene; index: number; total: number }) {
+  return (
+    <div className={scene?.kind === 'start' ? 'opening-banner start' : 'opening-banner'}>
+      <span>事件導入</span>
+      <strong>{String(index + 1).padStart(2, '0')}</strong>
+      <span>{total}幕</span>
+    </div>
+  );
+}
+
+function OpeningProgressPanel({
+  scenes,
+  currentIndex,
+  onPrevious,
+  onNext,
+  onSkip,
+  onStart,
+}: {
+  scenes: OpeningScene[];
+  currentIndex: number;
+  onPrevious: () => void;
+  onNext: () => void;
+  onSkip: () => void;
+  onStart: () => void;
+}) {
+  const atStart = currentIndex <= 0;
+  const atEnd = currentIndex >= scenes.length - 1;
+
+  return (
+    <div className="action-stack opening-progress">
+      <h2>オープニング進行</h2>
+      <div className="opening-case-card">
+        <PhoneCall size={20} aria-hidden="true" />
+        <div>
+          <span>緊急連絡</span>
+          <strong>午前0時18分までの導入</strong>
+        </div>
+      </div>
+      <ol className="opening-steps">
+        {scenes.map((scene, index) => (
+          <li key={`${scene.title}-${index}`} className={index === currentIndex ? 'active' : index < currentIndex ? 'done' : ''}>
+            <span>{String(index + 1).padStart(2, '0')}</span>
+            {scene.title}
+          </li>
+        ))}
+      </ol>
+      <div className="opening-actions">
+        <button className="secondary-button compact" type="button" disabled={atStart} onClick={onPrevious}>
+          <ChevronLeft size={18} />
+          前へ
+        </button>
+        {!atEnd ? (
+          <button className="primary-button compact" type="button" onClick={onNext}>
+            次へ
+            <ChevronRight size={18} />
+          </button>
+        ) : (
+          <button className="primary-button compact" type="button" onClick={onStart}>
+            <Play size={18} />
+            調査開始
+          </button>
+        )}
+        {!atEnd ? (
+          <button className="secondary-button compact skip-opening-button" type="button" onClick={onSkip}>
+            <SkipForward size={18} />
+            導入をスキップ
+          </button>
+        ) : null}
+      </div>
+    </div>
+  );
+}
+
+function EndingBanner({ scene, index, total }: { scene?: EndingScene; index: number; total: number }) {
+  const label = scene?.kind === 'clear' ? '第1話 完' : '真相解明';
+
+  return (
+    <div className={scene?.kind === 'clear' ? 'ending-banner clear' : 'ending-banner'}>
+      <span>{label}</span>
+      <strong>{String(index + 1).padStart(2, '0')}</strong>
+      <span>{total}幕</span>
+    </div>
+  );
+}
+
+function EndingProgressPanel({
+  ending,
+  currentIndex,
+  onPrevious,
+  onNext,
+  onReset,
+  onRestart,
+}: {
+  ending: Ending;
+  currentIndex: number;
+  onPrevious: () => void;
+  onNext: () => void;
+  onReset: () => void;
+  onRestart: () => void;
+}) {
+  const atStart = currentIndex <= 0;
+  const atEnd = currentIndex >= ending.scenes.length - 1;
+
+  return (
+    <div className="action-stack ending-progress">
+      <h2>エンディング進行</h2>
+      <div className="ending-case-card">
+        <Scale size={20} aria-hidden="true" />
+        <div>
+          <span>事件解決</span>
+          <strong>午前0時の遺言書</strong>
+        </div>
+      </div>
+      <ol className="ending-steps">
+        {ending.scenes.map((scene, index) => (
+          <li key={`${scene.title}-${index}`} className={index === currentIndex ? 'active' : index < currentIndex ? 'done' : ''}>
+            <span>{String(index + 1).padStart(2, '0')}</span>
+            {scene.title}
+          </li>
+        ))}
+      </ol>
+      <div className="ending-actions">
+        <button className="secondary-button compact" type="button" disabled={atStart} onClick={onPrevious}>
+          <ChevronLeft size={18} />
+          前へ
+        </button>
+        {!atEnd ? (
+          <button className="primary-button compact" type="button" onClick={onNext}>
+            次へ
+            <ChevronRight size={18} />
+          </button>
+        ) : (
+          <>
+            <button className="secondary-button compact" type="button" onClick={onReset}>
+              <Home size={18} />
+              タイトルへ
+            </button>
+            <button className="primary-button compact restart-button" type="button" onClick={onRestart}>
+              <RotateCcw size={18} />
+              もう一度調査する
+            </button>
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
+
 function ActionPane({
   state,
   mode,
@@ -411,6 +710,8 @@ function ActionPane({
   selectedCharacterId,
   selectedEvidenceId,
   answers,
+  deductionFailed,
+  failureScene,
   onMove,
   onInspect,
   onTalk,
@@ -419,6 +720,8 @@ function ActionPane({
   onPresent,
   onAnswer,
   onSubmitDeduction,
+  onRetryDeduction,
+  onReturnToInvestigation,
 }: {
   state: GameState;
   mode: ViewMode;
@@ -427,6 +730,8 @@ function ActionPane({
   selectedCharacterId: string;
   selectedEvidenceId: string;
   answers: Record<string, string>;
+  deductionFailed: boolean;
+  failureScene?: EndingScene;
   onMove: (locationId: string) => void;
   onInspect: (action: InspectAction) => void;
   onTalk: (talk: Talk) => void;
@@ -435,6 +740,8 @@ function ActionPane({
   onPresent: () => void;
   onAnswer: (answers: Record<string, string>) => void;
   onSubmitDeduction: () => void;
+  onRetryDeduction: () => void;
+  onReturnToInvestigation: () => void;
 }) {
   if (mode === 'move') return <MoveActions currentLocationId={state.currentLocationId} onMove={onMove} />;
   if (mode === 'inspect') return <InspectActions state={state} actions={currentLocation.inspectActions} onInspect={onInspect} />;
@@ -454,6 +761,15 @@ function ActionPane({
   if (mode === 'evidence') return <EvidenceList acquiredEvidenceIds={acquiredEvidenceIds} />;
   if (mode === 'log') return <LogList log={state.log} />;
   if (mode === 'deduction') {
+    if (deductionFailed && failureScene) {
+      return (
+        <DeductionFailurePanel
+          scene={failureScene}
+          onRetry={onRetryDeduction}
+          onReturnToInvestigation={onReturnToInvestigation}
+        />
+      );
+    }
     return <DeductionPanel answers={answers} onAnswer={onAnswer} onSubmit={onSubmitDeduction} />;
   }
 
@@ -640,6 +956,37 @@ function LogList({ log }: { log: string[] }) {
           {item}
         </p>
       ))}
+    </div>
+  );
+}
+
+function DeductionFailurePanel({
+  scene,
+  onRetry,
+  onReturnToInvestigation,
+}: {
+  scene: EndingScene;
+  onRetry: () => void;
+  onReturnToInvestigation: () => void;
+}) {
+  return (
+    <div className="action-stack deduction-failure-panel">
+      <div className="failure-mark">
+        <XCircle size={22} aria-hidden="true" />
+        <span>推理不成立</span>
+      </div>
+      <h2>{scene.title}</h2>
+      <p>{scene.text}</p>
+      <div className="failure-actions">
+        <button className="primary-button compact" type="button" onClick={onRetry}>
+          <ShieldQuestion size={18} />
+          推理に戻る
+        </button>
+        <button className="secondary-button compact" type="button" onClick={onReturnToInvestigation}>
+          <Search size={18} />
+          調査に戻る
+        </button>
+      </div>
     </div>
   );
 }
@@ -946,14 +1293,62 @@ function findPresentReaction(characterId: string, evidenceId: string, state: Gam
   )[0];
 }
 
-function applyEnding(state: GameState, ending: Ending, endingId: 'success' | 'failure'): GameState {
+function clampIndex(index: number, total: number) {
+  if (total <= 0) return 0;
+  return Math.max(0, Math.min(total - 1, index));
+}
+
+function applySuccessEnding(state: GameState, ending: Ending): GameState {
+  const scene = ending.scenes[0];
+  return {
+    ...applyEndingScene(state, scene, 0),
+    flags: addUnique(state.flags, ending.setFlags),
+    log: [...state.log, '真相に到達した。'],
+    mode: 'ending',
+    endingId: 'success',
+  };
+}
+
+function applyDeductionFailure(state: GameState, ending: Ending): GameState {
+  const scene = ending.scenes[0];
   return {
     ...state,
-    narrative: ending.text,
-    flags: Array.from(new Set([...state.flags, ...(ending.setFlags ?? [])])),
-    log: [...state.log, endingId === 'success' ? '真相に到達した。' : '推理をやり直す必要がある。'],
+    narrative: scene?.text ?? '推理はまだ成立していない。',
+    flags: addUnique(state.flags, ending.setFlags),
+    log: [...state.log, '推理をやり直す必要がある。'],
+    mode: 'deduction',
+    endingId: 'failure',
+    endingSceneIndex: undefined,
+    activeSpeakerId: scene?.speakerId,
+  };
+}
+
+function applyOpeningScene(state: GameState, scene: OpeningScene | undefined, openingSceneIndex: number): GameState {
+  const locationId = scene?.locationId ?? state.currentLocationId;
+  return {
+    ...state,
+    currentLocationId: locationId,
+    visitedLocationIds: addUnique(state.visitedLocationIds, [locationId]),
+    narrative: scene?.text ?? state.narrative,
+    activeSpeakerId: scene?.speakerId,
+    mode: 'opening',
+    openingSceneIndex,
+    endingId: undefined,
+    endingSceneIndex: undefined,
+  };
+}
+
+function applyEndingScene(state: GameState, scene: EndingScene | undefined, endingSceneIndex: number): GameState {
+  const locationId = scene?.locationId ?? state.currentLocationId;
+  return {
+    ...state,
+    currentLocationId: locationId,
+    visitedLocationIds: addUnique(state.visitedLocationIds, [locationId]),
+    narrative: scene?.text ?? state.narrative,
+    activeSpeakerId: scene?.speakerId,
     mode: 'ending',
-    endingId,
+    endingId: 'success',
+    endingSceneIndex,
   };
 }
 

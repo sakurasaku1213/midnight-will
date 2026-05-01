@@ -15,6 +15,8 @@ export function createInitialState(episode: Episode): GameState {
     narrative: episode.opening.lines.join('\n\n'),
     activeSpeakerId: undefined,
     mode: 'scene',
+    openingSceneIndex: undefined,
+    endingSceneIndex: undefined,
   };
 }
 
@@ -69,6 +71,9 @@ export function applyEffects(
     log: appendLog(state.log, effects.log),
     activeSpeakerId: effects.activeSpeakerId,
     mode: effects.mode ?? state.mode,
+    openingSceneIndex: effects.mode === 'opening' ? state.openingSceneIndex : undefined,
+    endingId: effects.mode === 'ending' ? state.endingId : undefined,
+    endingSceneIndex: effects.mode === 'ending' ? state.endingSceneIndex : undefined,
   };
 
   return applyAutoEvents(withDirectEffects, episode);
@@ -91,6 +96,9 @@ export function applyAutoEvents(state: GameState, episode: Episode) {
       log: appendLog(next.log, event.log),
       activeSpeakerId: undefined,
       mode: 'scene',
+      openingSceneIndex: undefined,
+      endingId: undefined,
+      endingSceneIndex: undefined,
     };
     changed = true;
   }

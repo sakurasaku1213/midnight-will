@@ -83,6 +83,7 @@ export type Episode = {
   opening: {
     lines: string[];
     startText: string;
+    scenes: OpeningScene[];
   };
   characters: Character[];
   evidence: Evidence[];
@@ -104,10 +105,26 @@ export type Episode = {
 export type Ending = {
   id: string;
   setFlags?: string[];
-  text: string;
+  scenes: EndingScene[];
 };
 
-export type ViewMode = 'scene' | 'move' | 'inspect' | 'talk' | 'present' | 'evidence' | 'log' | 'deduction' | 'ending';
+export type EndingScene = {
+  title: string;
+  speakerId?: string;
+  locationId?: string;
+  text: string;
+  kind?: 'reveal' | 'summary' | 'confrontation' | 'confession' | 'epilogue' | 'clear' | 'failure';
+};
+
+export type OpeningScene = {
+  title: string;
+  speakerId?: string;
+  locationId?: string;
+  text: string;
+  kind?: 'phone' | 'case' | 'deadline' | 'arrival' | 'start';
+};
+
+export type ViewMode = 'scene' | 'opening' | 'move' | 'inspect' | 'talk' | 'present' | 'evidence' | 'log' | 'deduction' | 'ending';
 
 export type GameState = {
   started: boolean;
@@ -120,5 +137,7 @@ export type GameState = {
   narrative: string;
   activeSpeakerId?: string;
   mode: ViewMode;
+  openingSceneIndex?: number;
   endingId?: 'success' | 'failure';
+  endingSceneIndex?: number;
 };

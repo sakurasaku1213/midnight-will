@@ -178,9 +178,11 @@ button {
 }
 
 .primary-button,
+.secondary-button,
 .icon-button,
 .command,
 .list-button {
+  min-width: 0;
   border: 1px solid var(--line);
   border-radius: 6px;
   color: var(--text);
@@ -210,11 +212,27 @@ button {
   width: 100%;
 }
 
+.secondary-button {
+  min-height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 0 18px;
+  background: #181d27;
+  color: var(--text);
+}
+
+.secondary-button.compact {
+  width: 100%;
+}
+
 .title-button {
   margin-top: 30px;
 }
 
 .primary-button:disabled,
+.secondary-button:disabled,
 .command:disabled,
 .list-button:disabled {
   cursor: not-allowed;
@@ -222,6 +240,7 @@ button {
 }
 
 .primary-button:not(:disabled):hover,
+.secondary-button:not(:disabled):hover,
 .command:not(:disabled):hover,
 .list-button:not(:disabled):hover,
 .icon-button:hover {
@@ -306,6 +325,7 @@ button {
 
 .story-panel,
 .command-panel {
+  min-width: 0;
   border: 1px solid var(--line);
   border-radius: 8px;
   background: rgb(26 26 32 / 0.94);
@@ -376,6 +396,81 @@ button {
     linear-gradient(180deg, transparent 64%, rgb(8 8 11 / 0.5)),
     repeating-linear-gradient(0deg, rgb(255 255 255 / 0.04) 0 1px, transparent 1px 5px);
   pointer-events: none;
+}
+
+.ending-story-panel {
+  border-color: rgb(211 178 100 / 0.42);
+  box-shadow:
+    inset 0 0 0 1px rgb(211 178 100 / 0.08),
+    0 24px 80px rgb(0 0 0 / 0.22);
+}
+
+.opening-story-panel {
+  border-color: rgb(143 184 255 / 0.38);
+  box-shadow:
+    inset 0 0 0 1px rgb(143 184 255 / 0.08),
+    0 24px 80px rgb(0 0 0 / 0.2);
+}
+
+.opening-banner,
+.ending-banner {
+  width: min(760px, 100%);
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+  gap: 12px;
+  margin: 0 0 12px;
+  padding: 10px 12px;
+  border: 1px solid rgb(211 178 100 / 0.5);
+  border-radius: 6px;
+  background:
+    linear-gradient(90deg, rgb(64 44 18 / 0.78), rgb(20 24 34 / 0.72)),
+    repeating-linear-gradient(90deg, rgb(255 255 255 / 0.04) 0 1px, transparent 1px 6px);
+  color: var(--paper);
+  font-weight: 700;
+}
+
+.opening-banner {
+  border-color: rgb(143 184 255 / 0.5);
+  background:
+    linear-gradient(90deg, rgb(18 42 68 / 0.82), rgb(20 24 34 / 0.72)),
+    repeating-linear-gradient(90deg, rgb(255 255 255 / 0.04) 0 1px, transparent 1px 6px);
+}
+
+.ending-banner strong {
+  color: var(--warn);
+  font-size: 1.1rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.ending-banner span:last-child {
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.ending-banner.clear {
+  border-color: rgb(143 184 255 / 0.68);
+  background:
+    linear-gradient(90deg, rgb(27 51 77 / 0.9), rgb(22 24 34 / 0.74)),
+    repeating-linear-gradient(90deg, rgb(255 255 255 / 0.045) 0 1px, transparent 1px 6px);
+}
+
+.opening-banner strong {
+  color: var(--accent-2);
+  font-size: 1.1rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.opening-banner span:last-child {
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.opening-banner.start {
+  border-color: rgb(211 178 100 / 0.6);
+  background:
+    linear-gradient(90deg, rgb(64 44 18 / 0.78), rgb(20 24 34 / 0.72)),
+    repeating-linear-gradient(90deg, rgb(255 255 255 / 0.04) 0 1px, transparent 1px 6px);
 }
 
 .dialogue-stage {
@@ -488,6 +583,10 @@ button {
   grid-template-rows: auto 1fr;
 }
 
+.ending-command-panel {
+  grid-template-rows: 1fr;
+}
+
 .command-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -522,6 +621,141 @@ button {
   margin: 0 0 14px;
   font-size: 1rem;
   color: var(--accent-2);
+}
+
+.opening-progress,
+.ending-progress {
+  display: grid;
+  align-content: start;
+  gap: 14px;
+}
+
+.opening-case-card,
+.ending-case-card {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 12px;
+  border: 1px solid rgb(211 178 100 / 0.4);
+  border-radius: 6px;
+  padding: 14px;
+  background: rgb(211 178 100 / 0.07);
+}
+
+.opening-case-card {
+  border-color: rgb(143 184 255 / 0.38);
+  background: rgb(143 184 255 / 0.07);
+}
+
+.opening-case-card span,
+.ending-case-card span {
+  display: block;
+  color: var(--warn);
+  font-size: 0.82rem;
+}
+
+.opening-case-card span {
+  color: var(--accent);
+}
+
+.opening-case-card strong,
+.ending-case-card strong {
+  display: block;
+  margin-top: 3px;
+  color: var(--paper);
+}
+
+.opening-steps,
+.ending-steps {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.opening-steps li,
+.ending-steps li {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 10px 12px;
+  color: var(--muted);
+  background: rgb(10 11 15 / 0.34);
+}
+
+.opening-steps li span,
+.ending-steps li span {
+  color: var(--warn);
+  font-size: 0.78rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.opening-steps li span {
+  color: var(--accent);
+}
+
+.opening-steps li.done,
+.ending-steps li.done {
+  color: var(--text);
+  border-color: rgb(143 184 255 / 0.25);
+}
+
+.opening-steps li.active,
+.ending-steps li.active {
+  color: var(--paper);
+  border-color: rgb(143 184 255 / 0.72);
+  background: rgb(35 51 74 / 0.7);
+}
+
+.opening-actions,
+.ending-actions,
+.failure-actions {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.opening-actions button,
+.ending-actions button,
+.failure-actions button {
+  white-space: normal;
+}
+
+.opening-actions .skip-opening-button {
+  grid-column: 1 / -1;
+}
+
+.ending-actions .restart-button {
+  grid-column: 1 / -1;
+}
+
+.deduction-failure-panel {
+  display: grid;
+  gap: 14px;
+}
+
+.deduction-failure-panel p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.8;
+}
+
+.failure-mark {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  width: fit-content;
+  border: 1px solid rgb(211 178 100 / 0.48);
+  border-radius: 6px;
+  padding: 8px 10px;
+  color: var(--warn);
+  background: rgb(211 178 100 / 0.07);
+  font-weight: 700;
 }
 
 .list-button {
@@ -911,6 +1145,22 @@ select {
   .narrative {
     min-height: 150px;
     padding: 18px 16px 24px;
+  }
+
+  .opening-banner,
+  .ending-banner {
+    grid-template-columns: 1fr auto;
+  }
+
+  .opening-banner span:last-child,
+  .ending-banner span:last-child {
+    grid-column: 1 / -1;
+  }
+
+  .opening-actions,
+  .ending-actions,
+  .failure-actions {
+    grid-template-columns: 1fr;
   }
 
   .suspect-strip {
