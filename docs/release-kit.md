@@ -5,7 +5,7 @@
 - Play: https://sakurasaku1213.github.io/midnight-will/
 - GitHub: https://github.com/sakurasaku1213/midnight-will
 - note: https://note.com/ai_legal_desk
-- BOOTH: 商品ページ公開後に差し替え
+- BOOTH: https://legal-desk.booth.pm/items/8294253
 
 ## BOOTH商品案
 

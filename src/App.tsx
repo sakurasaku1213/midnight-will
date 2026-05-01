@@ -51,7 +51,7 @@ const ATLAS = {
 
 const PUBLIC_LINKS = {
   note: 'https://note.com/ai_legal_desk',
-  booth: 'https://booth.pm/ja/search/%E5%8D%88%E5%89%8D0%E6%99%82%E3%81%AE%E9%81%BA%E8%A8%80%E6%9B%B8',
+  booth: 'https://legal-desk.booth.pm/items/8294253',
   github: 'https://github.com/sakurasaku1213/midnight-will',
 };
 

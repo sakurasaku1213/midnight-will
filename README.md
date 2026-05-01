@@ -41,7 +41,7 @@ http://127.0.0.1:5173/
 - GitHub About: `10分で解ける法律事務所ミステリーWebゲーム`
 - Website: `https://sakurasaku1213.github.io/midnight-will/`
 - Topics: `react`, `typescript`, `vite`, `visual-novel`, `mystery-game`, `legal-tech`, `github-pages`
-- BOOTH商品URLが確定したら `src/App.tsx` の `PUBLIC_LINKS.booth` を商品ページへ差し替える
+- BOOTH制作資料パック: `https://legal-desk.booth.pm/items/8294253`
 
 ## 方針
 
