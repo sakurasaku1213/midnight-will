@@ -326,5 +326,21 @@
         <a href="https://note.com/ai_legal_desk/n/n714dd119f9f4">制作記事</a>
       </footer>
     </main>
+    <script>
+      const trackingKeys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content'];
+      const currentParams = new URLSearchParams(window.location.search);
+      const saleLink = document.querySelector('[data-sale-link]');
+
+      if (saleLink) {
+        const saleUrl = new URL(saleLink.href);
+        for (const key of trackingKeys) {
+          const value = currentParams.get(key);
+          if (value) {
+            saleUrl.searchParams.set(key, value);
+          }
+        }
+        saleLink.href = saleUrl.toString();
+      }
+    </script>
   </body>
 </html>
