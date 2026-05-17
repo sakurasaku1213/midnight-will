@@ -5,28 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="30,000円/60分のAI短編ミステリー制作相談。企画、事件設計、AIへの制作指示、公開導線を1回で整理します。"
+      content="100,000円/1週間のAI短編ミステリー制作伴走。企画、制作設計、AIへの指示、公開ページ、販売導線まで整理します。"
     />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="ja_JP" />
     <meta property="og:site_name" content="午前0時の遺言書" />
-    <meta property="og:title" content="30,000円 AI短編ミステリー制作相談" />
+    <meta property="og:title" content="100,000円 AI短編ミステリー制作伴走" />
     <meta
       property="og:description"
-      content="短編ゲーム、ミステリー、AI制作、専門知識の創作化について、60分で次の3手まで整理します。"
+      content="1週間で、短編ゲーム・教材・読み物を公開に近づける制作設計とAI活用の伴走プラン。"
     />
-    <meta property="og:url" content="https://sakurasaku1213.github.io/midnight-will/consult30k.html" />
+    <meta property="og:url" content="https://sakurasaku1213.github.io/midnight-will/companion100k.html" />
     <meta property="og:image" content="https://sakurasaku1213.github.io/midnight-will/ogp-card.png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="午前0時の遺言書" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="30,000円 AI短編ミステリー制作相談" />
-    <meta name="twitter:description" content="企画、事件設計、AIへの制作指示、公開導線を60分で整理。" />
+    <meta name="twitter:title" content="100,000円 AI短編ミステリー制作伴走" />
+    <meta name="twitter:description" content="企画、事件設計、AI指示、公開ページ、販売導線を1週間で整理。" />
     <meta name="twitter:image" content="https://sakurasaku1213.github.io/midnight-will/ogp-card.png" />
-    <link rel="canonical" href="https://sakurasaku1213.github.io/midnight-will/consult30k.html" />
+    <link rel="canonical" href="https://sakurasaku1213.github.io/midnight-will/companion100k.html" />
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
-    <title>30,000円 AI短編ミステリー制作相談</title>
+    <title>100,000円 AI短編ミステリー制作伴走</title>
     <style>
       :root {
         color-scheme: dark;
@@ -66,16 +66,16 @@
       }
 
       .page {
-        width: min(980px, calc(100% - 32px));
+        width: min(1040px, calc(100% - 32px));
         margin: 0 auto;
         padding: 42px 0 52px;
       }
 
       .hero {
-        min-height: min(72vh, 640px);
+        min-height: min(74vh, 680px);
         display: grid;
-        grid-template-columns: minmax(0, 1.1fr) minmax(260px, 360px);
-        gap: clamp(22px, 5vw, 44px);
+        grid-template-columns: minmax(0, 1.12fr) minmax(270px, 380px);
+        gap: clamp(22px, 5vw, 46px);
         align-items: center;
         border-bottom: 1px solid rgb(255 255 255 / 0.08);
         padding-bottom: 34px;
@@ -88,12 +88,21 @@
         margin-top: 0;
       }
 
+      h1,
+      h2,
+      h3,
+      p,
+      li,
+      a {
+        overflow-wrap: anywhere;
+      }
+
       h1 {
-        max-width: 760px;
+        max-width: 800px;
         margin-bottom: 18px;
         color: var(--paper);
-        font-size: clamp(2.35rem, 6vw, 5.1rem);
-        line-height: 1.02;
+        font-size: clamp(2.25rem, 5.6vw, 5rem);
+        line-height: 1.03;
         letter-spacing: 0;
       }
 
@@ -112,7 +121,7 @@
       }
 
       .lead {
-        max-width: 700px;
+        max-width: 720px;
         margin: 0;
         color: var(--muted);
         font-size: clamp(1rem, 2vw, 1.18rem);
@@ -121,6 +130,7 @@
 
       .price-panel,
       .card,
+      .notice,
       .message-template {
         border: 1px solid rgb(255 255 255 / 0.1);
         border-radius: 8px;
@@ -135,10 +145,17 @@
         background: rgb(20 23 31 / 0.92);
       }
 
+      .price-panel img {
+        width: 100%;
+        aspect-ratio: 1200 / 630;
+        border-radius: 6px;
+        object-fit: cover;
+      }
+
       .price {
         margin: 0;
         color: var(--paper);
-        font-size: clamp(2.3rem, 6vw, 4.2rem);
+        font-size: clamp(2.25rem, 6vw, 4.1rem);
         line-height: 1;
         font-weight: 850;
       }
@@ -201,6 +218,7 @@
       }
 
       .card p,
+      .notice p,
       li {
         color: var(--muted);
         line-height: 1.75;
@@ -212,9 +230,14 @@
         padding-left: 1.2rem;
       }
 
+      .notice {
+        border-color: rgb(211 178 100 / 0.34);
+        background: rgb(211 178 100 / 0.08);
+      }
+
       .message-template textarea {
         width: 100%;
-        min-height: 190px;
+        min-height: 210px;
         border: 1px solid rgb(255 255 255 / 0.12);
         border-radius: 6px;
         padding: 12px;
@@ -236,13 +259,6 @@
       .copy-status {
         color: var(--muted);
         font-size: 0.92rem;
-      }
-
-      .notice {
-        border: 1px solid rgb(211 178 100 / 0.34);
-        border-radius: 8px;
-        background: rgb(211 178 100 / 0.08);
-        padding: 16px;
       }
 
       footer {
@@ -267,58 +283,99 @@
           min-height: auto;
         }
       }
+
+      @media (max-width: 600px) {
+        h1 {
+          max-width: 360px;
+          font-size: clamp(1.85rem, 7vw, 2.35rem);
+        }
+
+        .lead {
+          max-width: 360px;
+        }
+      }
     </style>
   </head>
   <body>
     <main class="page">
       <section class="hero">
         <div>
-          <h1>60分で、短編ミステリー制作の次の3手を決める。</h1>
+          <h1>1週間で、小さなAI作品を公開に近づける。</h1>
           <p class="lead">
-            AIで短編ゲーム、ミステリー、教材、専門知識の創作化を進めたい人向けの単発相談です。企画の核、事件設計、AIへの制作指示、公開導線を1回で整理します。
+            AI短編ミステリー、ノベルゲーム、教材、専門知識の創作化を、企画整理から公開ページ・販売導線まで一緒に整える制作伴走です。1件で10万円の売上に届く高単価プランとして、まず1枠だけ募集します。
           </p>
           <div class="actions" aria-label="主要リンク">
-            <a class="button primary" href="#contact">相談文面をコピーする</a>
+            <a class="button primary" href="#contact">伴走相談の文面をコピーする</a>
             <a class="button" href="./">実績ゲームを見る</a>
             <a class="button" href="case-02.html">制作設計サンプルを見る</a>
+            <a class="button" href="consult30k.html">60分相談を見る</a>
           </div>
         </div>
-        <aside class="price-panel" aria-label="30,000円相談の概要">
-          <p class="price">30,000円</p>
-          <p class="muted">60分 / オンライン / 事前決済</p>
-          <p class="muted">相談後に、整理メモと次の3手を返します。</p>
-          <p class="muted">法律相談・法的助言ではありません。</p>
+        <aside class="price-panel" aria-label="100,000円制作伴走の概要">
+          <img src="ogp-card.png" alt="午前0時の遺言書" />
+          <p class="price">100,000円</p>
+          <p class="muted">1週間 / オンライン / 事前決済</p>
+          <p class="muted">初回60分、期間中3回までレビュー、公開前チェックまで。</p>
+          <p class="muted">コード実装請負・法律相談・成果保証ではありません。</p>
         </aside>
       </section>
 
       <section class="section">
-        <h2>この1回で決めること</h2>
+        <h2>1週間で作る状態</h2>
         <div class="grid">
           <article class="card">
-            <h3>企画の核</h3>
-            <p>何を遊ばせるのか、誰に見せるのか、30分以内の体験としてどこまで削るかを決めます。</p>
+            <h3>制作設計が1枚にまとまる</h3>
+            <p>テーマ、読者/プレイヤー、真相、体験時間、公開形態を絞り、制作判断に使えるメモへ落とします。</p>
           </article>
           <article class="card">
-            <h3>制作設計</h3>
-            <p>証拠、供述、時系列、矛盾、分岐条件を、AIに渡せる粒度へ落とします。</p>
+            <h3>AIへ頼める指示になる</h3>
+            <p>シーン表、状態表、判定表、素材リスト、実装依頼プロンプトを、AIに渡せる粒度で整理します。</p>
           </article>
           <article class="card">
-            <h3>公開導線</h3>
-            <p>無料版、note、BOOTH、Steam候補、制作相談のどこへつなぐかを整理します。</p>
+            <h3>公開導線まで決まる</h3>
+            <p>無料版、note、BOOTH、Steam候補、相談導線など、最初に出す場所と次の売り方を決めます。</p>
           </article>
         </div>
       </section>
 
       <section class="section">
-        <h2>向いている相談</h2>
+        <h2>含まれるもの</h2>
         <div class="two">
           <article class="card">
-            <h3>短編ゲームを作りたい</h3>
-            <p>AIでプロトタイプは作れるが、題材、分岐、プレイ時間、公開ページの整理で止まっている場合。</p>
+            <h3>進行</h3>
+            <ul>
+              <li>初回60分ヒアリング</li>
+              <li>1週間の制作設計伴走</li>
+              <li>期間中3回までのレビュー</li>
+              <li>公開前チェックリスト</li>
+            </ul>
           </article>
           <article class="card">
-            <h3>専門知識を創作にしたい</h3>
-            <p>仕事や専門分野の知識を、読み物、教材、ゲーム、制作資料として公開したい場合。</p>
+            <h3>納品物</h3>
+            <ul>
+              <li>制作設計メモ</li>
+              <li>AI制作・実装依頼プロンプト</li>
+              <li>公開ページ/販売導線チェック</li>
+              <li>次にやること5点</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>向いている人</h2>
+        <div class="grid">
+          <article class="card">
+            <h3>テーマはある</h3>
+            <p>専門分野、体験、物語、教材化したい題材はあるが、作品の形にする順番で止まっている場合。</p>
+          </article>
+          <article class="card">
+            <h3>AI制作を前提にしたい</h3>
+            <p>文章、資料、画像、実装、公開ページのどこをAIに任せるかを切り分けたい場合。</p>
+          </article>
+          <article class="card">
+            <h3>公開まで持っていきたい</h3>
+            <p>完成品保証ではなく、最初に出せる形と販売導線を短期で決めたい場合。</p>
           </article>
         </div>
       </section>
@@ -326,27 +383,44 @@
       <section class="section notice">
         <h2>対象外</h2>
         <p>
-          個別の法律相談、実在事件の評価、守秘義務のある業務資料の持ち込み、実在人物を攻撃する内容、成果保証を求める案件は扱いません。
+          コード実装の請負、収益や販売数の保証、個別の法律相談、実在事件の評価、守秘義務のある業務資料の持ち込み、実在人物を攻撃する内容は扱いません。
         </p>
       </section>
 
+      <section class="section">
+        <h2>提供条件・キャンセル</h2>
+        <div class="two">
+          <article class="card">
+            <h3>支払いと実施</h3>
+            <p>支払いは事前決済です。入金確認後、実施確定として扱います。実施形式はオンラインで、日時は個別調整します。</p>
+            <p>提供者都合で実施できない場合は、日程変更または全額返金を選べます。</p>
+          </article>
+          <article class="card">
+            <h3>キャンセル/返金</h3>
+            <p>入金前のキャンセルに費用はかかりません。入金後、開始24時間前までのキャンセルは、決済手数料等の実費を除いて返金します。</p>
+            <p>開始24時間前以降のキャンセル、無断欠席、開始後の返金は原則として受け付けません。成果を保証するものではありません。</p>
+          </article>
+        </div>
+      </section>
+
       <section class="section" id="contact">
-        <h2>相談希望の送り方</h2>
+        <h2>伴走相談の送り方</h2>
         <ol>
           <li>下の文面をコピーする</li>
           <li>制作記事へのコメント、返信、DMなどで送る</li>
-          <li>日時と決済リンクを個別に調整する</li>
+          <li>実施可否、日程、決済リンクを個別に調整する</li>
         </ol>
         <div class="message-template">
           <h3>送信文面</h3>
-          <textarea id="inquiryText" readonly>30,000円/60分の制作相談を希望します。
+          <textarea id="inquiryText" readonly>100,000円/1週間の制作伴走を相談したいです。
 作りたいもの:
 題材・専門分野:
 いまある素材:
-一番解決したいこと:
-希望日時:</textarea>
+1週間後に公開したい状態:
+一番詰まっていること:
+希望開始日:</textarea>
           <div class="copy-row">
-            <button class="button primary" type="button" onclick="copyInquiry()">相談文面をコピー</button>
+            <button class="button primary" type="button" onclick="copyInquiry()">伴走相談文面をコピー</button>
             <span id="copyStatus" class="copy-status" aria-live="polite"></span>
           </div>
         </div>
@@ -360,10 +434,10 @@
       <footer>
         <span>午前0時の遺言書</span>
         <a href="./">無料ゲーム</a>
-        <a href="case-02.html">Case 02設計</a>
+        <a href="consult30k.html">30,000円相談</a>
         <a href="service.html">制作相談</a>
-        <a href="companion100k.html">100,000円伴走</a>
         <a href="consulting.html">1枚提案書</a>
+        <a href="case-02.html">Case 02設計</a>
         <a href="materials-sample.html">資料サンプル</a>
         <a href="https://note.com/ai_legal_desk/n/n714dd119f9f4">制作記事</a>
       </footer>
