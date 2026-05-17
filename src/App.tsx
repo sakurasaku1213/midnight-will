@@ -17,6 +17,7 @@ import {
   RotateCcw,
   Scale,
   Search,
+  Share2,
   ShieldQuestion,
   SkipForward,
   Volume2,
@@ -50,6 +51,7 @@ const ATLAS = {
 };
 
 const PUBLIC_LINKS = {
+  game: 'https://sakurasaku1213.github.io/midnight-will/',
   note: 'https://note.com/ai_legal_desk/n/n714dd119f9f4',
   booth: 'https://legal-desk.booth.pm/items/8294253',
   github: 'https://github.com/sakurasaku1213/midnight-will',
@@ -726,6 +728,9 @@ function EndingProgressPanel({
 }
 
 function ReleaseLinks() {
+  const shareText = '『午前0時の遺言書』をクリアしました。法律事務所が舞台の10分ミステリーADV。';
+  const shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(PUBLIC_LINKS.game)}`;
+
   return (
     <section className="release-links" aria-label="制作資料と関連リンク">
       <p className="release-kicker">第1話クリア後</p>
@@ -737,6 +742,10 @@ function ReleaseLinks() {
         <a className="primary-button compact" href={PUBLIC_LINKS.booth} target="_blank" rel="noreferrer">
           BOOTH資料パック
           <ExternalLink size={16} />
+        </a>
+        <a className="secondary-button compact share-link" href={shareUrl} target="_blank" rel="noreferrer">
+          クリアを共有
+          <Share2 size={16} />
         </a>
         <a className="secondary-button compact" href={PUBLIC_LINKS.note} target="_blank" rel="noreferrer">
           制作記事

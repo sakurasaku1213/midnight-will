@@ -796,6 +796,10 @@ button {
   grid-column: 1 / -1;
 }
 
+.release-link-grid .share-link {
+  grid-column: 1 / -1;
+}
+
 .deduction-failure-panel {
   display: grid;
   gap: 14px;
