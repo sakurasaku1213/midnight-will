@@ -50,7 +50,7 @@ const ATLAS = {
 };
 
 const PUBLIC_LINKS = {
-  note: 'https://note.com/ai_legal_desk',
+  note: 'https://note.com/ai_legal_desk/n/n714dd119f9f4',
   booth: 'https://legal-desk.booth.pm/items/8294253',
   github: 'https://github.com/sakurasaku1213/midnight-will',
 };
@@ -719,19 +719,21 @@ function ReleaseLinks() {
   return (
     <section className="release-links" aria-label="制作資料と関連リンク">
       <p className="release-kicker">第1話クリア後</p>
-      <h3>制作過程と資料</h3>
-      <p>制作記事、資料パック、ソースコードを公開導線としてまとめています。</p>
+      <h3>制作資料と第2話テンプレート</h3>
+      <p>
+        この短編ミステリーの制作過程、フラグ管理、シナリオJSON、証拠品表、次回作テンプレートを公開しています。
+      </p>
       <div className="release-link-grid">
-        <a className="secondary-button compact" href={PUBLIC_LINKS.note} target="_blank" rel="noreferrer">
-          note
+        <a className="primary-button compact" href={PUBLIC_LINKS.booth} target="_blank" rel="noreferrer">
+          BOOTH資料パック
           <ExternalLink size={16} />
         </a>
-        <a className="primary-button compact" href={PUBLIC_LINKS.booth} target="_blank" rel="noreferrer">
-          BOOTH資料
+        <a className="secondary-button compact" href={PUBLIC_LINKS.note} target="_blank" rel="noreferrer">
+          制作記事
           <ExternalLink size={16} />
         </a>
         <a className="secondary-button compact" href={PUBLIC_LINKS.github} target="_blank" rel="noreferrer">
-          GitHub
+          ソースコード
           <ExternalLink size={16} />
         </a>
       </div>
