@@ -247,6 +247,32 @@
         line-height: 1.75;
       }
 
+      .message-template textarea {
+        width: 100%;
+        min-height: 180px;
+        border: 1px solid rgb(255 255 255 / 0.12);
+        border-radius: 6px;
+        padding: 12px;
+        resize: vertical;
+        background: rgb(8 11 17 / 0.84);
+        color: var(--text);
+        font: inherit;
+        line-height: 1.75;
+      }
+
+      .message-template .copy-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        align-items: center;
+        margin-top: 12px;
+      }
+
+      .copy-status {
+        color: var(--muted);
+        font-size: 0.92rem;
+      }
+
       footer {
         display: flex;
         flex-wrap: wrap;
@@ -387,16 +413,20 @@
         </ol>
         <div class="message-template">
           <h3>送信文面</h3>
-          <pre>制作相談希望です。
+          <textarea id="inquiryText" readonly>制作相談希望です。
 希望プラン:
 作りたいもの:
 題材・専門分野:
 いまある素材:
 一番解決したいこと:
-希望日時:</pre>
+希望日時:</textarea>
+          <div class="copy-row">
+            <button class="button primary" type="button" onclick="copyInquiry()">相談文面をコピー</button>
+            <span id="copyStatus" class="copy-status" aria-live="polite"></span>
+          </div>
         </div>
         <div class="actions">
-          <a class="button primary" href="https://note.com/ai_legal_desk/n/n714dd119f9f4">制作記事を見る</a>
+          <a class="button primary" href="https://note.com/ai_legal_desk/n/n714dd119f9f4">制作記事で連絡する</a>
           <a class="button secondary" href="consulting.html">1枚提案書を見る</a>
           <a class="button secondary" href="case-02.html">Case 02設計を見る</a>
           <a class="button secondary" href="purchase.html">制作資料を見る</a>
@@ -414,5 +444,18 @@
         <a href="https://note.com/ai_legal_desk/n/n714dd119f9f4">制作記事</a>
       </footer>
     </main>
+    <script>
+      async function copyInquiry() {
+        const text = document.getElementById("inquiryText").value;
+        const status = document.getElementById("copyStatus");
+        try {
+          await navigator.clipboard.writeText(text);
+          status.textContent = "コピーしました";
+        } catch {
+          document.getElementById("inquiryText").select();
+          status.textContent = "選択しました";
+        }
+      }
+    </script>
   </body>
 </html>
