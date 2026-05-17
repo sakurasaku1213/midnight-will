@@ -53,8 +53,8 @@ const ATLAS = {
 const PUBLIC_LINKS = {
   game: 'https://sakurasaku1213.github.io/midnight-will/',
   materials: assetUrl('materials.html'),
+  purchase: assetUrl('purchase.html'),
   note: 'https://note.com/ai_legal_desk/n/n714dd119f9f4',
-  booth: 'https://legal-desk.booth.pm/items/8294253',
   github: 'https://github.com/sakurasaku1213/midnight-will',
 };
 
@@ -739,9 +739,9 @@ function ReleaseLinks() {
         この短編ミステリーの制作過程、フラグ管理、シナリオJSON、証拠品表、次回作テンプレートを公開しています。
       </p>
       <div className="release-link-grid">
-        <a className="primary-button compact" href={PUBLIC_LINKS.booth} target="_blank" rel="noreferrer">
-          BOOTH資料パック
-          <ExternalLink size={16} />
+        <a className="primary-button compact" href={PUBLIC_LINKS.purchase}>
+          資料パック購入案内
+          <BookOpen size={16} />
         </a>
         <a className="secondary-button compact share-link" href={shareUrl} target="_blank" rel="noreferrer">
           クリアを共有
