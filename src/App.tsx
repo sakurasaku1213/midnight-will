@@ -52,6 +52,7 @@ const ATLAS = {
 
 const PUBLIC_LINKS = {
   game: 'https://sakurasaku1213.github.io/midnight-will/',
+  materials: assetUrl('materials.html'),
   note: 'https://note.com/ai_legal_desk/n/n714dd119f9f4',
   booth: 'https://legal-desk.booth.pm/items/8294253',
   github: 'https://github.com/sakurasaku1213/midnight-will',
@@ -470,10 +471,9 @@ function TitleScreen({
             <FileSearch size={19} />
             調査を始める
           </button>
-          <a className="secondary-button title-button" href={PUBLIC_LINKS.booth} target="_blank" rel="noreferrer">
+          <a className="secondary-button title-button" href={PUBLIC_LINKS.materials}>
             <BookOpen size={18} />
             制作資料を見る
-            <ExternalLink size={15} />
           </a>
         </div>
         <div className="title-art" aria-hidden="true">
@@ -526,7 +526,7 @@ function Header({
         <span>{statusLabel}</span>
       </div>
       <div className="topbar-actions">
-        <a className="icon-button topbar-link" href={PUBLIC_LINKS.booth} target="_blank" rel="noreferrer" aria-label="制作資料を開く">
+        <a className="icon-button topbar-link" href={PUBLIC_LINKS.materials} aria-label="制作資料を開く">
           <BookOpen size={18} />
         </a>
         <button
@@ -746,6 +746,10 @@ function ReleaseLinks() {
         <a className="secondary-button compact share-link" href={shareUrl} target="_blank" rel="noreferrer">
           クリアを共有
           <Share2 size={16} />
+        </a>
+        <a className="secondary-button compact" href={PUBLIC_LINKS.materials}>
+          資料内容を見る
+          <BookOpen size={16} />
         </a>
         <a className="secondary-button compact" href={PUBLIC_LINKS.note} target="_blank" rel="noreferrer">
           制作記事

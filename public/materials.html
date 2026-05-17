@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="午前0時の遺言書 実践テンプレ付き制作資料パック。短編ミステリーADVの制作仕様、証拠品表、供述矛盾表、事件設計シート、シナリオJSONテンプレートを収録。"
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="ja_JP" />
+    <meta property="og:site_name" content="午前0時の遺言書" />
+    <meta property="og:title" content="午前0時の遺言書 制作資料パック" />
+    <meta
+      property="og:description"
+      content="短編ミステリーADVの制作仕様、証拠品表、供述矛盾表、事件設計シート、シナリオJSONテンプレートを収録。"
+    />
+    <meta property="og:url" content="https://sakurasaku1213.github.io/midnight-will/materials.html" />
+    <meta property="og:image" content="https://sakurasaku1213.github.io/midnight-will/ogp-card.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="午前0時の遺言書 制作資料パック" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="午前0時の遺言書 制作資料パック" />
+    <meta
+      name="twitter:description"
+      content="事件設計シート、証拠品表、供述矛盾表、シナリオJSONテンプレート入り。短編ミステリーADV制作のたたき台に。"
+    />
+    <meta name="twitter:image" content="https://sakurasaku1213.github.io/midnight-will/ogp-card.png" />
+    <meta name="twitter:image:alt" content="午前0時の遺言書 制作資料パック" />
+    <link rel="canonical" href="https://sakurasaku1213.github.io/midnight-will/materials.html" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <title>午前0時の遺言書 制作資料パック</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        font-family:
+          Inter,
+          "Yu Gothic UI",
+          "Hiragino Kaku Gothic ProN",
+          Meiryo,
+          system-ui,
+          sans-serif;
+        --bg: #0e0d10;
+        --panel: #181820;
+        --panel-2: #222530;
+        --paper: #f2f5f8;
+        --text: #e7edf5;
+        --muted: #aeb8c7;
+        --line: #3c3642;
+        --accent: #8fb8ff;
+        --warn: #d3b264;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-width: 320px;
+        min-height: 100vh;
+        background:
+          linear-gradient(135deg, rgb(13 12 15 / 0.98), rgb(26 19 26 / 0.98) 46%, rgb(13 17 24 / 0.98)),
+          repeating-linear-gradient(90deg, rgb(255 255 255 / 0.025) 0 1px, transparent 1px 84px);
+        color: var(--text);
+      }
+
+      a {
+        color: inherit;
+      }
+
+      .page {
+        width: min(1120px, calc(100% - 32px));
+        margin: 0 auto;
+        padding: 28px 0 52px;
+      }
+
+      .hero {
+        min-height: min(82vh, 760px);
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(300px, 430px);
+        gap: clamp(18px, 4vw, 42px);
+        align-items: center;
+        border-bottom: 1px solid rgb(255 255 255 / 0.08);
+        padding-bottom: 34px;
+      }
+
+      .hero > div,
+      .hero-card {
+        min-width: 0;
+      }
+
+      .eyebrow {
+        margin: 0 0 12px;
+        color: var(--warn);
+        font-size: 0.9rem;
+        font-weight: 700;
+      }
+
+      h1 {
+        margin: 0;
+        max-width: 760px;
+        color: var(--paper);
+        font-size: clamp(2.1rem, 5vw, 4.25rem);
+        line-height: 1.04;
+        letter-spacing: 0;
+        overflow-wrap: anywhere;
+      }
+
+      .lead {
+        max-width: 680px;
+        margin: 22px 0 0;
+        color: var(--muted);
+        font-size: clamp(1rem, 2vw, 1.18rem);
+        line-height: 1.9;
+      }
+
+      .hero-card {
+        border: 1px solid rgb(143 184 255 / 0.28);
+        border-radius: 8px;
+        background: rgb(20 23 31 / 0.92);
+        box-shadow: 0 24px 70px rgb(0 0 0 / 0.3);
+        overflow: hidden;
+      }
+
+      .hero-card img {
+        display: block;
+        width: 100%;
+        aspect-ratio: 1200 / 630;
+        object-fit: cover;
+      }
+
+      .price-panel {
+        display: grid;
+        gap: 12px;
+        padding: 18px;
+      }
+
+      .price {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        gap: 12px;
+        color: var(--paper);
+        font-size: 2.25rem;
+        font-weight: 800;
+      }
+
+      .price small {
+        color: var(--muted);
+        font-size: 0.85rem;
+        font-weight: 500;
+      }
+
+      .actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin-top: 24px;
+      }
+
+      .button {
+        min-height: 50px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        padding: 0 18px;
+        text-decoration: none;
+        font-weight: 700;
+      }
+
+      .button.primary {
+        grid-column: 1 / -1;
+        background: #e8f0ff;
+        color: #0d1521;
+        border-color: #e8f0ff;
+      }
+
+      .button.secondary {
+        background: #181d27;
+        color: var(--text);
+      }
+
+      .section {
+        padding: 34px 0;
+      }
+
+      .section h2 {
+        margin: 0 0 16px;
+        color: var(--paper);
+        font-size: clamp(1.35rem, 3vw, 2rem);
+        letter-spacing: 0;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .card,
+      .note {
+        border: 1px solid rgb(255 255 255 / 0.1);
+        border-radius: 8px;
+        background: rgb(24 24 32 / 0.88);
+        padding: 16px;
+      }
+
+      .card h3 {
+        margin: 0 0 8px;
+        color: var(--paper);
+        font-size: 1rem;
+      }
+
+      .card p,
+      .note p,
+      li {
+        color: var(--muted);
+        line-height: 1.75;
+      }
+
+      ul {
+        margin: 0;
+        padding-left: 1.2rem;
+      }
+
+      .two-column {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        gap: 16px;
+      }
+
+      .note {
+        border-color: rgb(211 178 100 / 0.34);
+        background: rgb(211 178 100 / 0.08);
+      }
+
+      footer {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px 18px;
+        border-top: 1px solid rgb(255 255 255 / 0.08);
+        padding-top: 22px;
+        color: var(--muted);
+        font-size: 0.9rem;
+      }
+
+      @media (max-width: 820px) {
+        .hero,
+        .two-column,
+        .grid {
+          grid-template-columns: 1fr;
+        }
+
+        .hero {
+          min-height: auto;
+          padding-top: 18px;
+        }
+
+        .actions {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <section class="hero">
+        <div>
+          <p class="eyebrow">午前0時の遺言書 / 制作資料パック</p>
+          <h1>短編ミステリーADVを作るための事件設計テンプレート</h1>
+          <p class="lead">
+            弁護士が作った無料Webゲーム「午前0時の遺言書」の制作過程を、仕様書、脚本、証拠品表、供述矛盾表、シナリオJSONテンプレートとして整理した資料パックです。
+          </p>
+          <div class="actions" aria-label="主要リンク">
+            <a class="button primary" href="https://legal-desk.booth.pm/items/8294253">BOOTHで資料パックを見る</a>
+            <a class="button secondary" href="./">無料ゲームを遊ぶ</a>
+            <a class="button secondary" href="https://note.com/ai_legal_desk/n/n714dd119f9f4">制作記事を読む</a>
+          </div>
+        </div>
+        <aside class="hero-card" aria-label="商品概要">
+          <img src="ogp-card.png" alt="午前0時の遺言書" />
+          <div class="price-panel">
+            <div class="price">
+              <span>1,480円</span>
+              <small>BOOTH上位版</small>
+            </div>
+            <p class="lead">
+              第2話や別作品に流用できる、事件設計シート、証拠品表、供述矛盾表、シナリオJSONテンプレート入り。
+            </p>
+          </div>
+        </aside>
+      </section>
+
+      <section class="section">
+        <h2>収録内容</h2>
+        <div class="grid">
+          <article class="card">
+            <h3>制作資料</h3>
+            <p>制作仕様書、シーン単位脚本、シナリオJSON解説、React実装メモ、画像生成プロンプトを収録。</p>
+          </article>
+          <article class="card">
+            <h3>事件設計テンプレート</h3>
+            <p>真相、証拠、供述、時系列、矛盾を整理するための第2話制作テンプレートを収録。</p>
+          </article>
+          <article class="card">
+            <h3>販売・展開チェック</h3>
+            <p>BOOTH商品化チェックリスト、Steam展開チェックリスト、無料ゲームから有料資料への導線設計を収録。</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section two-column">
+        <div>
+          <h2>この資料で分かること</h2>
+          <ul>
+            <li>真相から逆算して証拠を配置する方法</li>
+            <li>登場人物、場所、証拠品を絞る考え方</li>
+            <li>会話、調査、証拠提示、最終推理の分け方</li>
+            <li>フラグ管理表とシナリオJSONの構造</li>
+            <li>AIに実装を依頼するときの指示の出し方</li>
+          </ul>
+        </div>
+        <div class="note">
+          <h2>注意事項</h2>
+          <p>
+            このゲームおよび資料は創作物です。表示内容は法律相談・法的助言ではありません。実在の事件・人物・団体とは関係ありません。
+          </p>
+          <p>資料そのものの再配布、転売、公開アップロードはご遠慮ください。</p>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>まず無料ゲームを遊べます</h2>
+        <p class="lead">
+          購入前に、実際の短編ミステリーADVを無料で確認できます。クリア後に制作資料とテンプレートへのリンクが表示されます。
+        </p>
+        <div class="actions">
+          <a class="button primary" href="./">無料ゲームを遊ぶ</a>
+          <a class="button secondary" href="https://legal-desk.booth.pm/items/8294253">BOOTHへ進む</a>
+        </div>
+      </section>
+
+      <footer>
+        <span>午前0時の遺言書</span>
+        <a href="./">無料ゲーム</a>
+        <a href="https://legal-desk.booth.pm/items/8294253">BOOTH</a>
+        <a href="https://github.com/sakurasaku1213/midnight-will">GitHub</a>
+      </footer>
+    </main>
+  </body>
+</html>
