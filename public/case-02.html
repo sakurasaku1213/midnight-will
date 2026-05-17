@@ -1,0 +1,352 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Legal Desk Mysteries Case 02 消えた準備書面の制作設計サンプル。短編ミステリーADVの証拠、供述、時系列、AI制作指示の組み方を公開します。"
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="ja_JP" />
+    <meta property="og:site_name" content="午前0時の遺言書" />
+    <meta property="og:title" content="Case 02 消えた準備書面 制作設計サンプル" />
+    <meta
+      property="og:description"
+      content="提出直前の書面から重要な一文が消えた。証拠、供述、時系列、矛盾を短編ADVへ落とす制作サンプル。"
+    />
+    <meta property="og:url" content="https://sakurasaku1213.github.io/midnight-will/case-02.html" />
+    <meta property="og:image" content="https://sakurasaku1213.github.io/midnight-will/ogp-card.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="午前0時の遺言書" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Case 02 消えた準備書面 制作設計サンプル" />
+    <meta name="twitter:description" content="法律事務所ミステリーADVの事件設計サンプル。" />
+    <meta name="twitter:image" content="https://sakurasaku1213.github.io/midnight-will/ogp-card.png" />
+    <link rel="canonical" href="https://sakurasaku1213.github.io/midnight-will/case-02.html" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <title>Case 02 消えた準備書面 制作設計サンプル</title>
+    <style>
+      :root {
+        color-scheme: light;
+        font-family:
+          "Yu Gothic UI",
+          "Hiragino Kaku Gothic ProN",
+          Meiryo,
+          system-ui,
+          sans-serif;
+        --ink: #17202a;
+        --muted: #52616f;
+        --line: #d8dee6;
+        --paper: #fbfaf7;
+        --panel: #ffffff;
+        --accent: #0f6b68;
+        --gold: #9a6a1f;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-width: 320px;
+        background: #eceff2;
+        color: var(--ink);
+        line-height: 1.68;
+      }
+
+      a {
+        color: #0b5f8a;
+        overflow-wrap: anywhere;
+      }
+
+      main {
+        width: min(1040px, calc(100% - 32px));
+        margin: 24px auto;
+        border: 1px solid var(--line);
+        background: var(--paper);
+        padding: clamp(22px, 4vw, 38px);
+      }
+
+      header {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(220px, 330px);
+        gap: clamp(18px, 4vw, 34px);
+        align-items: center;
+        border-bottom: 3px solid var(--accent);
+        padding-bottom: 24px;
+      }
+
+      h1,
+      h2,
+      h3,
+      p {
+        margin-top: 0;
+      }
+
+      h1 {
+        margin-bottom: 14px;
+        font-size: clamp(2.1rem, 6vw, 4.7rem);
+        line-height: 1.02;
+        letter-spacing: 0;
+      }
+
+      h2 {
+        margin-bottom: 14px;
+        font-size: clamp(1.35rem, 3vw, 2rem);
+        letter-spacing: 0;
+      }
+
+      h3 {
+        margin-bottom: 8px;
+        letter-spacing: 0;
+      }
+
+      .eyebrow {
+        margin-bottom: 10px;
+        color: var(--gold);
+        font-weight: 800;
+      }
+
+      .lead {
+        color: var(--muted);
+        font-size: 1.08rem;
+      }
+
+      .hero-img {
+        border: 1px solid var(--line);
+        background: #111827;
+        padding: 8px;
+      }
+
+      .hero-img img {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 18px;
+      }
+
+      .button {
+        display: inline-flex;
+        min-height: 42px;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        padding: 9px 14px;
+        background: var(--accent);
+        color: #fff;
+        font-weight: 800;
+        text-decoration: none;
+      }
+
+      .button.secondary {
+        background: #fff;
+        color: var(--ink);
+      }
+
+      section {
+        padding: 30px 0;
+        border-bottom: 1px solid var(--line);
+      }
+
+      section:last-of-type {
+        border-bottom: 0;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .two {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      .card {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--panel);
+        padding: 16px;
+      }
+
+      .card p,
+      li {
+        color: var(--muted);
+      }
+
+      .evidence {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: grid;
+        gap: 8px;
+      }
+
+      .evidence li {
+        border-left: 4px solid var(--accent);
+        background: #fff;
+        padding: 10px 12px;
+      }
+
+      .sample {
+        overflow-x: auto;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #15202b;
+        color: #eef3f8;
+        padding: 14px;
+        font-family: Consolas, "Yu Gothic UI", monospace;
+        font-size: 0.92rem;
+        line-height: 1.55;
+      }
+
+      .notice {
+        border: 1px solid #e3c88d;
+        border-radius: 8px;
+        background: #fff8e9;
+        padding: 16px;
+      }
+
+      footer {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px 18px;
+        padding-top: 22px;
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+
+      @media (max-width: 780px) {
+        header,
+        .grid,
+        .two {
+          grid-template-columns: 1fr;
+        }
+
+        main {
+          margin: 0 auto;
+          width: 100%;
+          border-left: 0;
+          border-right: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header>
+        <div>
+          <p class="eyebrow">Legal Desk Mysteries / Case 02</p>
+          <h1>消えた準備書面</h1>
+          <p class="lead">
+            明朝提出予定の準備書面から、重要な一文だけが消えている。誰が、なぜ、どのタイミングで修正したのかを、証拠と時系列から追う短編ミステリーADVの制作設計サンプルです。
+          </p>
+          <div class="actions">
+            <a class="button" href="service.html#contact">制作相談を見る</a>
+            <a class="button secondary" href="series.html">シリーズ構想へ戻る</a>
+          </div>
+        </div>
+        <figure class="hero-img">
+          <img src="ogp-card.png" alt="午前0時の遺言書のキービジュアル" />
+        </figure>
+      </header>
+
+      <section>
+        <h2>事件の核</h2>
+        <div class="grid">
+          <article class="card">
+            <h3>プレイヤーの問い</h3>
+            <p>削除された一文は、単なる修正か、意図的な隠蔽か。提出直前の作業履歴をたどります。</p>
+          </article>
+          <article class="card">
+            <h3>推理の手触り</h3>
+            <p>派手な犯行ではなく、更新時刻、印刷履歴、メール、メモのずれを照合する実務寄りの謎です。</p>
+          </article>
+          <article class="card">
+            <h3>プレイ時間</h3>
+            <p>想定20〜30分。証拠5点、人物3人、最後に一文が消えた理由を選びます。</p>
+          </article>
+        </div>
+      </section>
+
+      <section>
+        <h2>証拠品の設計</h2>
+        <ul class="evidence">
+          <li><strong>準備書面 旧版:</strong> 問題の一文が残っている。依頼者の主張に直結する。</li>
+          <li><strong>準備書面 新版:</strong> 一文だけが消え、段落番号も自然に詰められている。</li>
+          <li><strong>メール送信履歴:</strong> 旧版送信、修正版送信、提出予定時刻が並ぶ。</li>
+          <li><strong>打ち合わせメモ:</strong> 誰が一文を残すべきだと言ったかが書かれている。</li>
+          <li><strong>プリンタ履歴:</strong> 深夜に新版だけが印刷されている。</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>人物と矛盾</h2>
+        <div class="two">
+          <article class="card">
+            <h3>若手弁護士</h3>
+            <p>「誤字だけ直した」と話すが、編集履歴の時刻と本人の退勤時刻が合わない。</p>
+          </article>
+          <article class="card">
+            <h3>事務局スタッフ</h3>
+            <p>深夜印刷の操作権限はあるが、文面の法的意味までは知らない。</p>
+          </article>
+          <article class="card">
+            <h3>依頼者</h3>
+            <p>問題の一文を消したい動機がある。だが直接ファイルを編集できない。</p>
+          </article>
+          <article class="card">
+            <h3>見抜く矛盾</h3>
+            <p>「誰が編集できたか」ではなく、「誰が編集すべき理由を持ち、誰が操作したか」を分けて考える。</p>
+          </article>
+        </div>
+      </section>
+
+      <section>
+        <h2>AIへの制作指示サンプル</h2>
+        <pre class="sample">あなたは短編ミステリーADVの制作補助です。
+題材: 提出直前の準備書面から重要な一文だけが消えた事件。
+制約:
+- 実在事件や個別法務の助言にしない
+- 証拠から推理できる範囲に限定する
+- プレイヤーが20〜30分で解ける
+
+出力してほしいもの:
+1. 証拠品5点の説明文
+2. 人物3人の供述
+3. 時系列表
+4. 最後の推理選択肢3つ
+5. 正解時と不正解時の短い反応</pre>
+      </section>
+
+      <section class="notice">
+        <h2>扱う範囲</h2>
+        <p>
+          これは創作ゲームの制作設計サンプルです。法律相談・法的助言ではありません。実在事件、依頼者情報、守秘義務のある資料には接続しません。
+        </p>
+      </section>
+
+      <footer>
+        <span>午前0時の遺言書</span>
+        <a href="./">無料ゲーム</a>
+        <a href="series.html">シリーズ構想</a>
+        <a href="service.html">制作相談</a>
+        <a href="consulting.html">1枚提案書</a>
+        <a href="materials-sample.html">資料サンプル</a>
+        <a href="https://note.com/ai_legal_desk/n/n714dd119f9f4">制作記事</a>
+      </footer>
+    </main>
+  </body>
+</html>
