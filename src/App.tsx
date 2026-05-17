@@ -463,6 +463,17 @@ function TitleScreen({
         <p className="case-number">第1話</p>
         <h1>{episode.title}</h1>
         <p className="subtitle">{episode.subtitle}</p>
+        <div className="title-actions">
+          <button className="primary-button title-button" type="button" onClick={onStart}>
+            <FileSearch size={19} />
+            調査を始める
+          </button>
+          <a className="secondary-button title-button" href={PUBLIC_LINKS.booth} target="_blank" rel="noreferrer">
+            <BookOpen size={18} />
+            制作資料を見る
+            <ExternalLink size={15} />
+          </a>
+        </div>
         <div className="title-art" aria-hidden="true">
           <div className="title-location-strip" style={{ backgroundImage: `url("${ATLAS.locations}")` }} />
           <div className="title-character-lineup">
@@ -479,10 +490,6 @@ function TitleScreen({
         <p className="legal-disclaimer">
           このゲームは創作物です。表示内容は法律相談・法的助言ではありません。実在の事件・人物・団体とは関係ありません。
         </p>
-        <button className="primary-button title-button" type="button" onClick={onStart}>
-          <FileSearch size={19} />
-          調査を始める
-        </button>
       </section>
     </main>
   );
@@ -517,6 +524,9 @@ function Header({
         <span>{statusLabel}</span>
       </div>
       <div className="topbar-actions">
+        <a className="icon-button topbar-link" href={PUBLIC_LINKS.booth} target="_blank" rel="noreferrer" aria-label="制作資料を開く">
+          <BookOpen size={18} />
+        </a>
         <button
           className={soundEnabled ? 'icon-button sound-on' : 'icon-button'}
           type="button"
