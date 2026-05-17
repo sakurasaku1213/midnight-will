@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Legal Desk Mysteriesのシリーズ構想。法律事務所を舞台にした短編ミステリーADVを、無料版からSteam候補作へ育てる計画です。"
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="ja_JP" />
+    <meta property="og:site_name" content="午前0時の遺言書" />
+    <meta property="og:title" content="Legal Desk Mysteries シリーズ構想" />
+    <meta
+      property="og:description"
+      content="弁護士が作る法律事務所ミステリー。無料ブラウザ版を起点に、短編シリーズとSteam候補作へ展開します。"
+    />
+    <meta property="og:url" content="https://sakurasaku1213.github.io/midnight-will/series.html" />
+    <meta property="og:image" content="https://sakurasaku1213.github.io/midnight-will/ogp-card.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="午前0時の遺言書" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Legal Desk Mysteries シリーズ構想" />
+    <meta name="twitter:description" content="法律事務所ミステリーADVを短編シリーズとして育てる公開計画。" />
+    <meta name="twitter:image" content="https://sakurasaku1213.github.io/midnight-will/ogp-card.png" />
+    <link rel="canonical" href="https://sakurasaku1213.github.io/midnight-will/series.html" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <title>Legal Desk Mysteries シリーズ構想</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        font-family:
+          "Yu Gothic UI",
+          "Hiragino Kaku Gothic ProN",
+          Meiryo,
+          system-ui,
+          sans-serif;
+        --bg: #0f1013;
+        --panel: #181a20;
+        --paper: #f2f5f8;
+        --text: #eef3f8;
+        --muted: #b7c0cc;
+        --line: #3a404a;
+        --accent: #d8b15f;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-width: 320px;
+        background:
+          linear-gradient(135deg, rgb(12 13 16 / 0.96), rgb(26 26 33 / 0.96)),
+          repeating-linear-gradient(90deg, rgb(255 255 255 / 0.03) 0 1px, transparent 1px 92px);
+        color: var(--text);
+        line-height: 1.7;
+      }
+
+      a {
+        color: inherit;
+      }
+
+      .page {
+        width: min(1080px, calc(100% - 32px));
+        margin: 0 auto;
+        padding: 38px 0 52px;
+      }
+
+      .hero {
+        min-height: min(76vh, 720px);
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(280px, 420px);
+        gap: clamp(22px, 5vw, 48px);
+        align-items: center;
+      }
+
+      .eyebrow {
+        margin: 0 0 12px;
+        color: var(--accent);
+        font-weight: 700;
+        letter-spacing: 0;
+      }
+
+      h1,
+      h2,
+      h3,
+      p {
+        margin-top: 0;
+      }
+
+      h1 {
+        margin-bottom: 18px;
+        font-size: clamp(2.3rem, 7vw, 5.7rem);
+        line-height: 0.98;
+        letter-spacing: 0;
+      }
+
+      h2 {
+        font-size: clamp(1.5rem, 3vw, 2.2rem);
+        letter-spacing: 0;
+      }
+
+      h3 {
+        color: var(--paper);
+        letter-spacing: 0;
+      }
+
+      .lead {
+        max-width: 660px;
+        color: var(--muted);
+        font-size: clamp(1.02rem, 2vw, 1.22rem);
+      }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 24px;
+      }
+
+      .button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 44px;
+        border: 1px solid var(--line);
+        padding: 10px 16px;
+        border-radius: 6px;
+        background: var(--paper);
+        color: #101419;
+        font-weight: 700;
+        text-decoration: none;
+      }
+
+      .button.secondary {
+        background: transparent;
+        color: var(--text);
+      }
+
+      .key-art {
+        border: 1px solid var(--line);
+        background: #12141a;
+        padding: 10px;
+      }
+
+      .key-art img {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+
+      .section {
+        padding: 38px 0;
+        border-top: 1px solid var(--line);
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      .card {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: rgb(24 26 32 / 0.92);
+        padding: 18px;
+      }
+
+      .card p,
+      li {
+        color: var(--muted);
+      }
+
+      .timeline {
+        display: grid;
+        gap: 12px;
+      }
+
+      .step {
+        display: grid;
+        grid-template-columns: 92px minmax(0, 1fr);
+        gap: 16px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: rgb(18 20 26 / 0.8);
+        padding: 16px;
+      }
+
+      .step strong {
+        color: var(--accent);
+      }
+
+      .notice {
+        border: 1px solid color-mix(in srgb, var(--accent) 55%, var(--line));
+        border-radius: 8px;
+        padding: 18px;
+        background: rgb(216 177 95 / 0.09);
+      }
+
+      footer {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px 18px;
+        border-top: 1px solid var(--line);
+        padding-top: 20px;
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+
+      @media (max-width: 760px) {
+        .hero,
+        .grid {
+          grid-template-columns: 1fr;
+        }
+
+        .hero {
+          min-height: auto;
+          padding: 24px 0 28px;
+        }
+
+        .step {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <section class="hero">
+        <div>
+          <p class="eyebrow">Legal Desk Mysteries</p>
+          <h1>法律事務所ミステリーを、短編シリーズへ。</h1>
+          <p class="lead">
+            「午前0時の遺言書」は、証拠、供述、時系列、矛盾を読み解く短編ADVです。無料ブラウザ版を起点に、複数話の事件ファイルとSteam候補作へ育てます。
+          </p>
+          <div class="actions">
+            <a class="button" href="./">無料版を遊ぶ</a>
+            <a class="button secondary" href="consulting.html">制作相談を見る</a>
+          </div>
+        </div>
+        <figure class="key-art">
+          <img src="ogp-card.png" alt="午前0時の遺言書のキービジュアル" />
+        </figure>
+      </section>
+
+      <section class="section">
+        <h2>シリーズの核</h2>
+        <div class="grid">
+          <article class="card">
+            <h3>事件は小さく</h3>
+            <p>1話30分前後。証拠を読み、人物の話を聞き、最後に矛盾を指摘する短編設計です。</p>
+          </article>
+          <article class="card">
+            <h3>推理は実務寄り</h3>
+            <p>派手なトリックより、書面、メモ、更新履歴、供述の変化を照合する手触りを重視します。</p>
+          </article>
+          <article class="card">
+            <h3>制作過程も商品</h3>
+            <p>事件設計、証拠品表、AIへの実装指示、公開導線までを資料化し、制作相談にも接続します。</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>候補エピソード</h2>
+        <div class="grid">
+          <article class="card">
+            <h3>Case 01: 午前0時の遺言書</h3>
+            <p>相続、自筆証書遺言、原本管理。公開済みの無料版を、リマスター候補として磨きます。</p>
+          </article>
+          <article class="card">
+            <h3>Case 02: 消えた準備書面</h3>
+            <p>提出直前の書面から重要な一文が消える。更新履歴、メール、打ち合わせメモを照合します。</p>
+          </article>
+          <article class="card">
+            <h3>Case 03: 最後の接見メモ</h3>
+            <p>接見での発言と翌日の供述調書が食い違う。変化の理由を、時系列から追います。</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>Steam候補作までの順番</h2>
+        <div class="timeline">
+          <article class="step">
+            <strong>Now</strong>
+            <div>
+              <h3>無料版と制作相談</h3>
+              <p>まずは公開済みの短編を実績サンプルとして使い、AI短編ミステリー制作相談へつなげます。</p>
+            </div>
+          </article>
+          <article class="step">
+            <strong>Next</strong>
+            <div>
+              <h3>Case 02のプロトタイプ</h3>
+              <p>20分以上遊べる第2話を作り、シリーズとして続くことを見せます。</p>
+            </div>
+          </article>
+          <article class="step">
+            <strong>Vol.1</strong>
+            <div>
+              <h3>3話入り短編集</h3>
+              <p>Case 01〜03をまとめ、セーブ、設定、証拠品ギャラリー、制作メモを加えたSteam候補作にします。</p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section notice">
+        <h2>公開方針</h2>
+        <p>
+          本作は創作物です。法律相談・法的助言ではありません。実在事件、依頼者情報、守秘義務のある資料には接続しません。Steam展開は準備中の構想であり、発売を確約するものではありません。
+        </p>
+      </section>
+
+      <footer>
+        <span>午前0時の遺言書</span>
+        <a href="./">無料ゲーム</a>
+        <a href="service.html">制作相談</a>
+        <a href="consulting.html">1枚提案書</a>
+        <a href="materials-sample.html">資料サンプル</a>
+        <a href="purchase.html">制作資料</a>
+        <a href="https://note.com/ai_legal_desk/n/n714dd119f9f4">制作記事</a>
+      </footer>
+    </main>
+  </body>
+</html>
