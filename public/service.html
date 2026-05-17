@@ -225,6 +225,28 @@
         background: rgb(211 178 100 / 0.08);
       }
 
+      .message-template {
+        margin: 18px 0 0;
+        border: 1px solid rgb(143 184 255 / 0.24);
+        border-radius: 8px;
+        background: rgb(12 15 22 / 0.72);
+        padding: 16px;
+      }
+
+      .message-template h3 {
+        margin: 0 0 10px;
+        color: var(--paper);
+        font-size: 1rem;
+      }
+
+      .message-template pre {
+        margin: 0;
+        white-space: pre-wrap;
+        color: var(--muted);
+        font: inherit;
+        line-height: 1.75;
+      }
+
       footer {
         display: flex;
         flex-wrap: wrap;
@@ -258,14 +280,14 @@
             「午前0時の遺言書」の制作経験をもとに、企画整理、事件設計、証拠品表、供述矛盾表、AIへの実装指示、公開・販売導線を一緒に整理します。
           </p>
           <div class="actions" aria-label="主要リンク">
-            <a class="button primary" href="https://note.com/ai_legal_desk/n/n714dd119f9f4">制作記事から相談する</a>
+            <a class="button primary" href="#contact">相談希望の文面を見る</a>
             <a class="button secondary" href="./">実績ゲームを見る</a>
             <a class="button secondary" href="materials-sample.html">資料サンプルを見る</a>
           </div>
         </div>
         <aside class="summary" aria-label="相談概要">
           <img src="ogp-card.png" alt="午前0時の遺言書" />
-          <p>相談希望は、このページを見た投稿への返信またはDMで受け付けます。</p>
+          <p>相談希望は、このページを見た投稿への返信またはDMで受け付けます。下の文面をそのまま使えます。</p>
           <p>創作・AI制作・販売導線の相談です。法律相談・法的助言ではありません。</p>
         </aside>
       </section>
@@ -331,7 +353,7 @@
         </p>
       </section>
 
-      <section class="section">
+      <section class="section" id="contact">
         <h2>相談前に送ってほしいこと</h2>
         <ol>
           <li>作りたいもの</li>
@@ -340,6 +362,16 @@
           <li>一番解決したいこと</li>
           <li>希望プランと希望日時</li>
         </ol>
+        <div class="message-template">
+          <h3>送信文面</h3>
+          <pre>制作相談希望です。
+希望プラン:
+作りたいもの:
+題材・専門分野:
+いまある素材:
+一番解決したいこと:
+希望日時:</pre>
+        </div>
         <div class="actions">
           <a class="button primary" href="https://note.com/ai_legal_desk/n/n714dd119f9f4">制作記事を見る</a>
           <a class="button secondary" href="purchase.html">制作資料を見る</a>
