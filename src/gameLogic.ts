@@ -1,7 +1,11 @@
 import type { Episode, GameEvent, GameState } from './types';
 
 export const SAVE_VERSION = 1;
-export const STORAGE_KEY = 'midnight-will:save:v1';
+
+// 第1話は既存プレイヤーのセーブを引き継ぐため従来キーのまま
+export function storageKeyFor(episodeId: string) {
+  return episodeId === 'episode_01' ? 'midnight-will:save:v1' : `midnight-will:save:${episodeId}:v1`;
+}
 
 export function createInitialState(episode: Episode): GameState {
   return {
@@ -112,7 +116,7 @@ function shouldRunEvent(state: GameState, event: GameEvent) {
 
 export function loadSavedState(episode: Episode): GameState | null {
   try {
-    const raw = window.localStorage.getItem(STORAGE_KEY);
+    const raw = window.localStorage.getItem(storageKeyFor(episode.id));
     if (!raw) return null;
     const parsed = JSON.parse(raw) as { version: number; state: GameState };
     if (parsed.version !== SAVE_VERSION) return null;
@@ -125,6 +129,10 @@ export function loadSavedState(episode: Episode): GameState | null {
   }
 }
 
-export function saveState(state: GameState) {
-  window.localStorage.setItem(STORAGE_KEY, JSON.stringify({ version: SAVE_VERSION, state }));
+export function saveState(episode: Episode, state: GameState) {
+  window.localStorage.setItem(storageKeyFor(episode.id), JSON.stringify({ version: SAVE_VERSION, state }));
+}
+
+export function clearSavedState(episode: Episode) {
+  window.localStorage.removeItem(storageKeyFor(episode.id));
 }

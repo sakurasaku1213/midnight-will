@@ -1,0 +1,646 @@
+{
+  "id": "episode_02",
+  "title": "消えた準備書面",
+  "subtitle": "決裁済みの書面から、一文だけが消えたのはなぜか。",
+  "caseLabel": "第2話",
+  "estimatedMinutes": 15,
+  "initialLocationId": "director_office",
+  "opening": {
+    "lines": [
+      "また、午前0時だった。",
+      "明朝提出の準備書面から、重要な一文だけが消えている。",
+      "所長の決裁は済んでいた。消したのは、そのあとの誰かだ。",
+      "段落番号は自然に詰め直されている。誤操作の消え方ではない。",
+      "提出は明朝10時。裁判所は待ってくれない。",
+      "あなたはコートをつかみ、ふたたび深夜の大宮へ向かった。"
+    ],
+    "startText": "事務所の照明は半分だけ点いていた。受付の時計は0時23分を指している。",
+    "callLog": "午前0時過ぎ、所長からふたたび緊急の連絡を受けた。",
+    "startLog": "調査開始。午前0時23分、事務所に到着した。",
+    "progressLabel": "午前0時23分までの導入",
+    "scenes": [
+      {
+        "title": "ふたたびの午前0時",
+        "locationId": "reception",
+        "kind": "phone",
+        "text": "午前0時を少し回ったころ、事務所用の携帯が震えた。\n\n画面には、所長の梶原誠の名前。この時間の着信に、いい知らせだったためしがない。"
+      },
+      {
+        "title": "所長の声",
+        "locationId": "director_office",
+        "speakerId": "director",
+        "kind": "phone",
+        "text": "「また君に頼むことになった」\n\n梶原の声は前回よりも硬い。「明朝提出の準備書面を最終確認していたら、一文だけが消えている」"
+      },
+      {
+        "title": "消えた一文",
+        "locationId": "director_office",
+        "speakerId": "director",
+        "kind": "case",
+        "text": "「決裁したときには、確かにあった。相手方の主張を崩すために、どうしても要る一文だ」\n\n「消えたあと、段落番号まで自然に詰め直されている。誤って消えた、という消え方じゃない」"
+      },
+      {
+        "title": "提出までの時間",
+        "locationId": "reception",
+        "kind": "deadline",
+        "text": "提出は明朝10時。裁判所は待ってくれない。\n\n旧版に戻すこと自体は簡単だ。だが、誰が、なぜ、どうやって消したのかを放置すれば、この事務所は同じことを繰り返す。"
+      },
+      {
+        "title": "調査開始",
+        "locationId": "director_office",
+        "kind": "start",
+        "text": "午前0時23分。\n\n事務所の照明は半分だけ点いていた。提出セット、会議室、プリンタ、受付。消えた一文の行方は、今夜も記録の中に残っている。"
+      }
+    ]
+  },
+  "theme": {
+    "primary": "deep-blue",
+    "tone": "legal-noir",
+    "notes": "第1話と同じ法律事務所。更新ログや印刷履歴など、記録を照合する実務寄りの謎。"
+  },
+  "progress": {
+    "default": "決裁後に差し替えられた書面を調査中",
+    "shifted": {
+      "flag": "remote_edit_established",
+      "label": "退勤後のリモート編集の線が浮上"
+    }
+  },
+  "characters": [
+    {
+      "id": "director",
+      "name": "梶原誠",
+      "role": "所長弁護士",
+      "shortDescription": "決裁者。一文を維持すると決めた本人。",
+      "isCulprit": false,
+      "artIndex": 1
+    },
+    {
+      "id": "clerk",
+      "name": "野崎真由",
+      "role": "事務員",
+      "shortDescription": "深夜まで残業し、指示どおり差し替え版を印刷した。",
+      "isCulprit": false,
+      "artIndex": 2
+    },
+    {
+      "id": "associate",
+      "name": "三上悠人",
+      "role": "若手弁護士",
+      "shortDescription": "「誤字だけ直した」と話すが、編集履歴の時刻と退勤時刻が合わない。",
+      "isCulprit": true,
+      "artIndex": 3
+    },
+    {
+      "id": "client",
+      "name": "榊原恒雄",
+      "role": "依頼者",
+      "shortDescription": "問題の一文を消したい動機がある。だが直接ファイルを編集できない。",
+      "isCulprit": false,
+      "artIndex": 4
+    }
+  ],
+  "evidence": [
+    {
+      "id": "draft_new",
+      "name": "準備書面 新版",
+      "description": "提出セットに綴じられていた版。問題の一文が消え、段落番号も自然に詰め直されている。",
+      "isKey": false,
+      "artIndex": 5
+    },
+    {
+      "id": "draft_old",
+      "name": "準備書面 旧版",
+      "description": "所長決裁時の押印済み原稿。問題の一文が残っている。差し替えは決裁のあとに起きた。",
+      "isKey": false,
+      "artIndex": 6
+    },
+    {
+      "id": "meeting_memo",
+      "name": "打ち合わせメモ",
+      "description": "野崎の議事メモ。「例の一文、榊原様強く難色。所長判断で維持と決定」とある。",
+      "isKey": false,
+      "artIndex": 2
+    },
+    {
+      "id": "print_log",
+      "name": "プリンタ履歴",
+      "description": "23時52分、新版だけが印刷されている。使われたのは事務局の共用アカウント。",
+      "isKey": false,
+      "artIndex": 3
+    },
+    {
+      "id": "exit_record",
+      "name": "退勤記録",
+      "description": "三上は22時05分に退勤し、再入館の記録はない。野崎は23時58分まで残業している。",
+      "isKey": false,
+      "artIndex": 0
+    },
+    {
+      "id": "mail_log",
+      "name": "メール履歴",
+      "description": "22時28分に榊原から三上へ「お電話よろしいですか」。22時31分に三上「今かけます」。23時47分、三上から野崎へ差し替え版の印刷指示。",
+      "isKey": false,
+      "artIndex": 1
+    },
+    {
+      "id": "update_log",
+      "name": "更新ログ",
+      "description": "第3準備書面のファイルは23時40分に更新されている。更新者は三上のID。接続元は所内ではなく、リモート回線。",
+      "isKey": true,
+      "artIndex": 4
+    }
+  ],
+  "flags": [
+    "found_draft_new",
+    "found_draft_old",
+    "found_meeting_memo",
+    "found_print_log",
+    "found_exit_record",
+    "found_mail_log",
+    "found_update_log",
+    "talked_director",
+    "heard_sentence_meaning",
+    "talked_clerk",
+    "clerk_explained_print",
+    "talked_associate",
+    "mikami_claims_typo",
+    "talked_client",
+    "client_showed_motive",
+    "director_confirmed_intentional",
+    "pressed_mikami_log",
+    "pressed_mikami_remote",
+    "mikami_admitted",
+    "client_pressed",
+    "remote_edit_established",
+    "final_unlocked",
+    "cleared",
+    "failed"
+  ],
+  "locations": [
+    {
+      "id": "director_office",
+      "name": "所長室",
+      "artIndex": 0,
+      "firstDescription": "重い机と壁一面の書棚。机の上に、明朝提出予定の提出セットが開かれたまま置かれている。",
+      "description": "所長室。提出セット、決裁ファイル、事件管理システムの端末がある。",
+      "inspectActions": [
+        {
+          "id": "submission_set",
+          "label": "提出セット",
+          "text": "明朝提出用のファイル。綴じられた第3準備書面をめくる。問題の一文があるはずの場所は、何事もなかったように詰められている。段落番号も振り直されていて、読むだけでは欠落に気づけない。",
+          "addEvidence": ["draft_new"],
+          "setFlags": ["found_draft_new"],
+          "log": "提出セットの新版から一文が消えていることを確認した。"
+        },
+        {
+          "id": "approval_file",
+          "label": "決裁ファイル",
+          "requiresFlags": ["found_draft_new"],
+          "text": "所長決裁時の原稿には押印がある。そして、問題の一文はここには残っている。つまり差し替えが起きたのは、決裁のあと、提出セットが組まれるまでの間だ。",
+          "addEvidence": ["draft_old"],
+          "setFlags": ["found_draft_old"],
+          "log": "決裁済みの旧版には一文が残っていた。差し替えは決裁後に起きた。"
+        },
+        {
+          "id": "case_terminal",
+          "label": "事件管理端末",
+          "requiresFlags": ["found_draft_old"],
+          "text": "事件管理システムで書面ファイルの履歴を開く。第3準備書面の最終更新は23時40分。更新者は三上のID。接続元は所内の端末ではなく、リモート回線と記録されている。",
+          "addEvidence": ["update_log"],
+          "setFlags": ["found_update_log"],
+          "log": "書面は23時40分、三上のIDでリモートから更新されていた。"
+        },
+        {
+          "id": "desk",
+          "label": "所長の机",
+          "text": "机上のカレンダーに赤字で「第3準備書面 提出 午前10時」。裁判所の受付が開くと同時に出す予定だ。猶予はない。",
+          "log": "提出予定は明朝10時。修正の猶予はほとんどない。"
+        }
+      ]
+    },
+    {
+      "id": "meeting_room",
+      "name": "会議室",
+      "artIndex": 1,
+      "firstDescription": "六人掛けの長机とホワイトボード。昨日の打ち合わせの空気が、まだ薄く残っている。",
+      "description": "会議室。昨日、依頼者を交えて書面の最終打ち合わせが行われた場所だ。",
+      "inspectActions": [
+        {
+          "id": "memo",
+          "label": "議事メモ",
+          "text": "机の端に野崎の議事メモが残っている。「例の一文、榊原様強く難色。所長判断で維持と決定」。一文を消したい人間が誰かは、ここにはっきり書かれている。",
+          "addEvidence": ["meeting_memo"],
+          "setFlags": ["found_meeting_memo"],
+          "log": "打ち合わせで榊原が一文に難色を示していたことが分かった。"
+        },
+        {
+          "id": "whiteboard",
+          "label": "ホワイトボード",
+          "text": "消し残しの走り書き。「時効」「自認」「立証責任」。あの一文は、こちらに不利に見えて、実は相手方の主張を崩すための布石だったようだ。",
+          "log": "消えた一文は、相手方の主張を崩すための布石だった。"
+        },
+        {
+          "id": "table",
+          "label": "長机",
+          "text": "配席のメモが残っている。所長の正面に榊原、その隣に三上。昨日の打ち合わせで、榊原の一番近くにいたのは三上だ。",
+          "log": "打ち合わせで榊原の隣に座っていたのは三上だった。"
+        },
+        {
+          "id": "trash",
+          "label": "ゴミ箱",
+          "text": "シュレッダー待ちの箱に、旧版の反故はない。紙を処分した形跡はなく、差し替えはデータの段階で行われたと見るべきだ。",
+          "log": "紙の処分痕はない。差し替えはデータ段階で行われた。"
+        }
+      ]
+    },
+    {
+      "id": "copier_area",
+      "name": "コピー機前",
+      "artIndex": 2,
+      "firstDescription": "複合機の液晶が薄く光っている。出力トレイには、まだ紙の温もりが残っている気がした。",
+      "description": "コピー機前。印刷履歴と出力トレイを確認できる。",
+      "inspectActions": [
+        {
+          "id": "print_history",
+          "label": "プリンタ履歴",
+          "text": "履歴には23時52分、第3準備書面の新版だけが印刷された記録が残っている。使われたのは事務局の共用アカウント。深夜のこの時間、事務局側で残っていたのは野崎だけだ。",
+          "addEvidence": ["print_log"],
+          "setFlags": ["found_print_log"],
+          "log": "23時52分、新版だけが共用アカウントで印刷されていた。"
+        },
+        {
+          "id": "tray",
+          "label": "出力トレイ",
+          "requiresFlags": ["found_print_log"],
+          "text": "トレイの脇に、外されたホチキスの針と旧版の表紙だけが残っている。提出セットの中身だけが、静かに入れ替えられたのだ。",
+          "log": "提出セットは中身だけが差し替えられていた。"
+        },
+        {
+          "id": "machine",
+          "label": "複合機",
+          "text": "操作パネルに乱れはない。慌てた形跡のない、手順どおりの印刷。操作した人間は、これが何の差し替えなのかを知らなかったのかもしれない。",
+          "log": "印刷作業そのものは落ち着いた手順で行われている。"
+        }
+      ]
+    },
+    {
+      "id": "reception",
+      "name": "受付",
+      "artIndex": 3,
+      "firstDescription": "受付カウンターには来客簿と勤怠端末がある。深夜の出入りの記録もここで確認できる。",
+      "description": "受付。来客簿と勤怠記録が置かれている。",
+      "inspectActions": [
+        {
+          "id": "attendance",
+          "label": "勤怠記録",
+          "text": "三上の退勤打刻は22時05分。その後の再入館記録はない。野崎は23時58分まで残業している。所長は21時にいったん帰宅し、0時前に戻っていた。",
+          "addEvidence": ["exit_record"],
+          "setFlags": ["found_exit_record"],
+          "log": "三上は22時05分に退勤し、事務所には戻っていない。"
+        },
+        {
+          "id": "guest_book",
+          "label": "来客簿",
+          "text": "榊原の最終来所は昨日の17時、退所は18時30分。深夜の来所記録はない。事務所のPCに直接触れた可能性は、記録の上では消える。",
+          "log": "榊原は昨夜、事務所に来ていない。"
+        },
+        {
+          "id": "counter",
+          "label": "受付カウンター",
+          "text": "カウンターの内側に、野崎が作りかけの提出用ラベルが残っている。彼女は今夜、別件の準備で残業していたようだ。",
+          "log": "野崎の残業は別件の準備のためだった。"
+        }
+      ]
+    },
+    {
+      "id": "pantry",
+      "name": "給湯室",
+      "artIndex": 4,
+      "firstDescription": "狭い給湯室。流し台に、洗いかけのマグカップがひとつだけ残っている。",
+      "description": "給湯室。深夜まで残っていた人間の痕跡が残る。",
+      "inspectActions": [
+        {
+          "id": "mug",
+          "label": "マグカップ",
+          "text": "マグカップはひとつだけ。中に残ったコーヒーはまだ乾いていない。0時近くまで残っていたのは野崎ひとりだったことと符合する。",
+          "log": "深夜に事務所へ残っていたのは野崎ひとりだった。"
+        },
+        {
+          "id": "sink",
+          "label": "流し台",
+          "text": "紙コップは使われていない。来客はなく、会議もなかった。今夜の事件は、人が集まって起きたものではない。",
+          "log": "深夜の事務所に来客の痕跡はない。"
+        }
+      ]
+    }
+  ],
+  "talks": [
+    {
+      "characterId": "director",
+      "id": "director_first",
+      "label": "事情を聞く",
+      "availableAt": ["director_office"],
+      "text": "「決裁したときには、あの一文は確かにあった。提出セットでは消えている。段落番号まで整えてな」梶原は提出セットを指で叩いた。「事務のミスという線は薄い。書面を読み慣れた人間の仕事だ」",
+      "setFlags": ["talked_director"],
+      "log": "所長は決裁後の意図的な差し替えを疑っている。"
+    },
+    {
+      "characterId": "director",
+      "id": "director_sentence",
+      "label": "一文の意味を聞く",
+      "availableAt": ["director_office"],
+      "requiresFlags": ["found_draft_old"],
+      "text": "「あの一文は、うちの依頼者に都合が悪いように見える。だが先に自認しておくことで、相手方の主張の芯を折るための布石だ」梶原は息を吐いた。「榊原さんは体裁を気にして最後まで嫌がっていた。それでも、維持すると決めたはずだった」",
+      "setFlags": ["heard_sentence_meaning"],
+      "log": "一文は戦略上必要で、榊原は削除を望んでいた。"
+    },
+    {
+      "characterId": "clerk",
+      "id": "clerk_first",
+      "label": "事情を聞く",
+      "availableAt": ["reception", "pantry", "copier_area"],
+      "text": "「私は指示どおり印刷して、セットを差し替えただけです」野崎の声は震えている。「中身の一文が消えていたなんて、今、初めて知りました」",
+      "setFlags": ["talked_clerk"],
+      "log": "野崎は指示どおり印刷と差し替えを行っただけだと話した。"
+    },
+    {
+      "characterId": "clerk",
+      "id": "clerk_print",
+      "label": "印刷の経緯を聞く",
+      "availableAt": ["reception", "pantry", "copier_area"],
+      "requiresFlags": ["found_print_log"],
+      "text": "「23時50分ごろ、三上先生からメールが来たんです。『最終版に差し替えたので、至急印刷して提出セットに入れておいてください』と。メール、お見せします」画面には、深夜のやり取りが時刻つきで残っていた。",
+      "addEvidence": ["mail_log"],
+      "setFlags": ["clerk_explained_print", "found_mail_log"],
+      "log": "野崎への印刷指示は23時47分、三上からのメールだった。"
+    },
+    {
+      "characterId": "associate",
+      "id": "associate_first",
+      "label": "事情を聞く",
+      "availableAt": ["director_office", "meeting_room", "copier_area"],
+      "text": "「夕方、誤字を三か所直しました。内容には触っていません」三上は視線を落とした。「まさか一文ごと消えているなんて、私も驚いています」",
+      "setFlags": ["talked_associate", "mikami_claims_typo"],
+      "log": "三上は「夕方に誤字だけ直した」と主張した。"
+    },
+    {
+      "characterId": "associate",
+      "id": "associate_evening",
+      "label": "昨夜の行動を聞く",
+      "availableAt": ["director_office", "meeting_room", "copier_area"],
+      "requiresFlags": ["talked_associate"],
+      "text": "「22時すぎに退勤しました。それきり事務所には戻っていません」その言い方は正確だった。戻っていない。ただ、戻らずにできることまでは、否定していない。",
+      "log": "三上は退勤後、事務所には戻っていないと述べた。"
+    },
+    {
+      "characterId": "client",
+      "id": "client_first",
+      "label": "事情を聞く",
+      "availableAt": ["reception", "meeting_room"],
+      "text": "「こんな夜中に呼び出されるとは思いませんでしたよ」榊原は疲れた顔で言った。「書面のことは先生方にお任せしています。私に分かることは何もない」",
+      "setFlags": ["talked_client"],
+      "log": "榊原は書面には関与していないと話した。"
+    },
+    {
+      "characterId": "client",
+      "id": "client_sentence",
+      "label": "一文について聞く",
+      "availableAt": ["reception", "meeting_room"],
+      "requiresFlags": ["found_meeting_memo"],
+      "text": "「あの一文ですか。私が消せと頼んだわけじゃない」榊原は一拍おいて続けた。「ただね、自分の書面に、自分の落ち度みたいな文章が印刷されて残る。それがどういう気分か、先生方には分からんでしょう」",
+      "setFlags": ["client_showed_motive"],
+      "log": "榊原は一文への強い不満を隠さなかった。"
+    }
+  ],
+  "presentReactions": [
+    {
+      "characterId": "director",
+      "evidenceId": "draft_new",
+      "text": "「段落番号まで詰め直してある。読み慣れた人間の仕事だ」梶原は新版を机に置いた。「事故ではない。意図的な削除だ。うちの中に、これをやれる人間は多くない」",
+      "setFlags": ["director_confirmed_intentional"],
+      "log": "所長は意図的な削除だと断定した。"
+    },
+    {
+      "characterId": "director",
+      "evidenceId": "update_log",
+      "text": "「リモート回線……在宅用のVPNか」梶原の眉が寄る。「あれを使えるのは弁護士だけだ。事務局には発行していない」",
+      "log": "リモート回線を使えるのは弁護士だけだと確認した。"
+    },
+    {
+      "characterId": "clerk",
+      "evidenceId": "print_log",
+      "text": "「はい、印刷したのは私です。共用アカウントで」野崎はうなずいた。「でも、指示のメールがあったんです。三上先生からの。お見せします」",
+      "addEvidence": ["mail_log"],
+      "setFlags": ["clerk_explained_print", "found_mail_log"],
+      "log": "野崎は印刷指示のメールを提示した。"
+    },
+    {
+      "characterId": "clerk",
+      "evidenceId": "update_log",
+      "text": "「23時40分……その時間、私はラベルを作っていました。それに、リモートの接続は私たちには使えません」野崎の言葉に嘘の気配はない。",
+      "log": "野崎にはリモート接続の手段がない。"
+    },
+    {
+      "characterId": "associate",
+      "evidenceId": "update_log",
+      "text": "「23時40分。あなたのIDで、リモート回線から書面が更新されています」三上の顔から血の気が引いた。「誤字の修正は、夕方だったのでは?」「それは……」言葉が続かない。",
+      "setFlags": ["pressed_mikami_log"],
+      "log": "三上に更新ログの時刻と接続元を突きつけた。"
+    },
+    {
+      "characterId": "associate",
+      "evidenceId": "exit_record",
+      "text": "「22時05分に退勤して、再入館の記録はない。それでも書面は23時40分に更新されている」あなたは静かに言った。「事務所の外から、ですね」三上は答えない。",
+      "setFlags": ["pressed_mikami_remote"],
+      "log": "三上に退勤後の編集であることを突きつけた。"
+    },
+    {
+      "characterId": "associate",
+      "evidenceId": "mail_log",
+      "requiresFlags": ["pressed_mikami_log", "pressed_mikami_remote"],
+      "text": "「22時31分、榊原さんに電話。23時40分、自宅から書面を更新。23時47分、野崎さんに印刷指示。順番は、これで全部です」\n\n三上は長い間黙り、それから静かに言った。「……電話で、どうしてもと言われたんです。提出前に、あの一文だけは消してくれと」",
+      "setFlags": ["mikami_admitted"],
+      "log": "三上が榊原の電話を受けて一文を消したことを認めた。"
+    },
+    {
+      "characterId": "associate",
+      "evidenceId": "mail_log",
+      "text": "「メールの時刻が、何か……」三上は目を合わせない。まだ押し切るには材料が足りない。更新ログと退勤記録を先に固める必要がある。",
+      "log": "三上はメール履歴だけでは口を割らなかった。"
+    },
+    {
+      "characterId": "associate",
+      "evidenceId": "meeting_memo",
+      "text": "「榊原さんが嫌がっていたのは、知っています」三上の声は小さい。「でも、方針は所長が決めたことです」そう言う声が、わずかに揺れた。",
+      "log": "三上はメモの内容を認めたが、それ以上は語らない。"
+    },
+    {
+      "characterId": "client",
+      "evidenceId": "mail_log",
+      "text": "「電話はしました。相談しただけです。消せと命じた覚えはありませんよ」榊原の声は、最初よりも硬くなっていた。「若い先生が気を回しただけでしょう」",
+      "setFlags": ["client_pressed"],
+      "log": "榊原は電話の事実を認めたが「相談しただけ」と主張した。"
+    },
+    {
+      "characterId": "client",
+      "evidenceId": "meeting_memo",
+      "text": "「難色を示したのは事実です。それが罪ですか」榊原は開き直るように言った。「嫌なものを嫌だと言って、何が悪い」",
+      "log": "榊原は一文への不満をあらためて認めた。"
+    },
+    {
+      "characterId": "client",
+      "evidenceId": "draft_new",
+      "text": "「私は昨日の夕方から事務所に来ていません。編集などできるはずがないでしょう」その言葉自体は、記録とも一致している。手を動かした人間は、別にいる。",
+      "log": "榊原自身にはファイルを編集する手段がなかった。"
+    }
+  ],
+  "events": [
+    {
+      "id": "remote_edit",
+      "kind": "auto",
+      "requiresFlags": [
+        "mikami_claims_typo",
+        "found_update_log",
+        "found_exit_record"
+      ],
+      "text": "誤字の修正は夕方のはずだ。だが書面が更新されたのは23時40分。三上が退勤した、そのあとに。接続元はリモート回線。\n\n「誰が編集できたか」を数えるのは、もうやめよう。「いつ、どこから、誰のIDで」。記録は、最初からそれだけを語っている。",
+      "setFlags": ["remote_edit_established"],
+      "log": "退勤後のリモート編集という線が浮かび上がった。"
+    },
+    {
+      "id": "unlock_final",
+      "kind": "auto",
+      "requiresFlags": [
+        "remote_edit_established",
+        "mikami_admitted",
+        "client_pressed",
+        "director_confirmed_intentional"
+      ],
+      "text": "材料はそろった。決裁後の差し替え、リモートの更新ログ、深夜の電話、そして印刷指示。\n\nあとは、消えた一文の顛末を並べ直すだけだ。",
+      "setFlags": ["final_unlocked"],
+      "log": "推理するコマンドが開放された。"
+    }
+  ],
+  "deduction": {
+    "requiresFlags": ["final_unlocked"],
+    "retryText": "推理を組み直す。「誰が編集できたか」ではなく、編集された時刻と場所、そして指示の流れをもう一度整理する。",
+    "questions": [
+      {
+        "id": "culprit",
+        "prompt": "一文を削除した人物は誰か。",
+        "choices": [
+          { "id": "director", "label": "梶原誠" },
+          { "id": "clerk", "label": "野崎真由" },
+          { "id": "associate", "label": "三上悠人" },
+          { "id": "client", "label": "榊原恒雄" }
+        ],
+        "answer": "associate"
+      },
+      {
+        "id": "method",
+        "prompt": "削除はどのように行われたか。",
+        "choices": [
+          { "id": "typo_accident", "label": "夕方の誤字修正の際に誤って消えた" },
+          { "id": "print_mistake", "label": "野崎が印刷時に版を取り違えた" },
+          { "id": "remote_edit", "label": "退勤後、依頼者の電話を受けて自宅からリモートで編集した" },
+          { "id": "client_direct", "label": "榊原が深夜に事務所のPCを直接操作した" }
+        ],
+        "answer": "remote_edit"
+      },
+      {
+        "id": "proof",
+        "prompt": "「夕方に誤字だけ直した」という供述を崩す決定的証拠はどれか。",
+        "choices": [
+          { "id": "print_log", "label": "プリンタ履歴" },
+          { "id": "meeting_memo", "label": "打ち合わせメモ" },
+          { "id": "update_log", "label": "更新ログの時刻と接続元" },
+          { "id": "exit_record", "label": "退勤記録" }
+        ],
+        "answer": "update_log"
+      }
+    ]
+  },
+  "endings": {
+    "success": {
+      "id": "success",
+      "setFlags": ["cleared"],
+      "scenes": [
+        {
+          "title": "真相解明",
+          "locationId": "director_office",
+          "kind": "reveal",
+          "text": "三つの答えがそろった。\n\n削除した人物、その方法、そして供述を崩す証拠。「誰が編集できたか」を数えていた視線が、ようやく記録の時刻へ戻っていく。"
+        },
+        {
+          "title": "削除したのは三上",
+          "locationId": "director_office",
+          "speakerId": "associate",
+          "kind": "summary",
+          "text": "「三上さん。一文を消したのは、あなたです」\n\n三上は否定しなかった。もう、その力も残っていないように見えた。"
+        },
+        {
+          "title": "深夜の電話",
+          "locationId": "reception",
+          "kind": "summary",
+          "text": "きっかけは22時31分の電話だった。\n\n榊原は「相談しただけ」と言い、三上は「指示」と受け取った。録音のない9分間。だがその前後の記録は、すべて残っていた。"
+        },
+        {
+          "title": "リモートの数分",
+          "locationId": "director_office",
+          "kind": "summary",
+          "text": "23時40分、三上は自宅からリモート回線で事件管理システムに接続した。\n\n決裁済みの書面から一文を消し、段落番号を丁寧に詰め直す。読み慣れた人間にしかできない、静かな数分間の作業だった。"
+        },
+        {
+          "title": "何も知らない印刷",
+          "locationId": "copier_area",
+          "speakerId": "clerk",
+          "kind": "summary",
+          "text": "23時47分、三上は野崎に印刷を指示した。\n\n野崎は何も知らずに新版を印刷し、提出セットを差し替えた。操作した者と、意図した者は、別にいる。彼女の手は、ただの道具にされた。"
+        },
+        {
+          "title": "決定的証拠",
+          "locationId": "director_office",
+          "kind": "summary",
+          "text": "決定的だったのは、更新ログだ。\n\n時刻は23時40分。IDは三上。接続元はリモート回線。「夕方に誤字だけ直した」という供述は、この三つの記録の前で崩れた。"
+        },
+        {
+          "title": "最後の突きつけ",
+          "locationId": "director_office",
+          "speakerId": "associate",
+          "kind": "confrontation",
+          "text": "「退勤は22時05分。書面の更新は23時40分。あなたは事務所に戻っていない。それでも書面は変わった」\n\n「消えた一文の場所を、段落番号ごと綺麗に埋められる人間。それは、この書面を書いたあなた自身です」"
+        },
+        {
+          "title": "告白",
+          "locationId": "director_office",
+          "speakerId": "associate",
+          "kind": "confession",
+          "text": "「依頼者に、どうしてもと言われたんです」\n\n三上の声は掠れていた。「嫌われたら、この仕事は続けられないと思った。……間違いだと、分かっていました。消しながら、ずっと」"
+        },
+        {
+          "title": "夜明け前の提出",
+          "locationId": "director_office",
+          "kind": "epilogue",
+          "text": "書面は旧版に戻され、一文は残った。\n\n梶原は榊原に方針をあらためて説明し、榊原は最後には署名した。「体裁より、勝ち筋です」その言葉に、返事はなかった。\n\n三上への処分は、梶原が引き取った。「切るのは簡単だ。だが、断り方を教えるのが先だろう」"
+        },
+        {
+          "title": "第2話 完",
+          "locationId": "director_office",
+          "kind": "clear",
+          "text": "事件解決。\n\n消えた一文は、夜明け前に元の場所へ戻された。\n\n調査時間、約15分。真相はひとつ。消したのは手であり、消させたのは声だった。"
+        }
+      ]
+    },
+    "failure": {
+      "id": "failure",
+      "setFlags": ["failed"],
+      "scenes": [
+        {
+          "title": "推理不成立",
+          "kind": "failure",
+          "text": "推理は一見つながっているように見えた。しかし、決定的な一点が足りない。\n\n「誰が編集できたか」を数えるだけでは、この事件は解けない。編集された時刻と、接続元と、指示の流れ。供述と記録のずれを、もう一度見直す必要がある。"
+        }
+      ]
+    }
+  }
+}

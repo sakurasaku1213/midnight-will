@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { createContext, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import type { KeyboardEvent } from 'react';
 import {
   BookOpen,
@@ -24,25 +24,30 @@ import {
   VolumeX,
   XCircle,
 } from 'lucide-react';
-import episodeData from '../data/episode-01.json';
 import {
   applyEffects,
   addUnique,
   canRunInteraction,
+  clearSavedState,
   createInitialState,
   hasAllFlags,
   loadSavedState,
   saveState,
 } from './gameLogic';
+import { EPISODES, getEpisodeBundle, resolveInitialEpisodeId, type EpisodeBundle } from './episodes';
 import { soundEngine, type SoundCue } from './sound';
 import type { Character, DeductionQuestion, Ending, EndingScene, Episode, Evidence, GameState, InspectAction, Location, OpeningScene, Talk, ViewMode } from './types';
 
-const episode = episodeData as Episode;
 const SOUND_STORAGE_KEY = 'midnight-will:sound:v1';
-const locationsById = new Map(episode.locations.map((location) => [location.id, location]));
-const charactersById = new Map(episode.characters.map((character) => [character.id, character]));
-const evidenceById = new Map(episode.evidence.map((item) => [item.id, item]));
 const assetUrl = (path: string) => `${import.meta.env.BASE_URL}${path}`;
+
+const EpisodeContext = createContext<EpisodeBundle | null>(null);
+
+function useEpisodeBundle() {
+  const bundle = useContext(EpisodeContext);
+  if (!bundle) throw new Error('EpisodeContext is not provided');
+  return bundle;
+}
 
 const ATLAS = {
   locations: assetUrl('assets/locations-atlas.png'),
@@ -69,6 +74,18 @@ const commandItems: Array<{ mode: ViewMode; label: string; icon: typeof MapPin }
 ];
 
 function App() {
+  const [activeEpisodeId, setActiveEpisodeId] = useState(() => resolveInitialEpisodeId(window.location.search));
+  const bundle = getEpisodeBundle(activeEpisodeId);
+
+  return (
+    <EpisodeContext.Provider value={bundle}>
+      <Game key={bundle.episode.id} onSelectEpisode={setActiveEpisodeId} />
+    </EpisodeContext.Provider>
+  );
+}
+
+function Game({ onSelectEpisode }: { onSelectEpisode: (episodeId: string) => void }) {
+  const { episode, locationsById, charactersById, evidenceById } = useEpisodeBundle();
   const [gameState, setGameState] = useState<GameState>(() => loadSavedState(episode) ?? createInitialState(episode));
   const [selectedCharacterId, setSelectedCharacterId] = useState(episode.characters[0]?.id ?? '');
   const [selectedEvidenceId, setSelectedEvidenceId] = useState('');
@@ -100,7 +117,7 @@ function App() {
   const isEnding = gameState.mode === 'ending' && gameState.endingId === 'success';
   const endingComplete = isEnding && endingSceneIndex >= successEnding.scenes.length - 1;
   const statusLabel = endingComplete
-    ? '第1話 完'
+    ? `${episode.caseLabel} 完`
     : isEnding
       ? '真相解明中'
       : openingComplete
@@ -112,8 +129,8 @@ function App() {
             : '調査継続';
 
   useEffect(() => {
-    saveState(gameState);
-  }, [gameState]);
+    saveState(episode, gameState);
+  }, [episode, gameState]);
 
   useEffect(() => {
     window.localStorage.setItem(SOUND_STORAGE_KEY, soundEnabled ? 'on' : 'off');
@@ -144,7 +161,7 @@ function App() {
       currentLocationId: firstScene.locationId ?? episode.initialLocationId,
       visitedLocationIds: addUnique(state.visitedLocationIds, [firstScene.locationId ?? episode.initialLocationId]),
       narrative: firstScene.text,
-      log: [...state.log, '午前0時過ぎ、所長から緊急の連絡を受けた。'],
+      log: [...state.log, episode.opening.callLog],
       activeSpeakerId: firstScene.speakerId,
       mode: 'opening',
       openingSceneIndex: 0,
@@ -161,7 +178,7 @@ function App() {
       currentLocationId: episode.initialLocationId,
       visitedLocationIds: addUnique(state.visitedLocationIds, [episode.initialLocationId]),
       narrative: episode.opening.startText,
-      log: [...state.log, '調査開始。午前0時18分、事務所に到着した。'],
+      log: [...state.log, episode.opening.startLog],
       activeSpeakerId: undefined,
       mode: 'scene',
       openingSceneIndex: undefined,
@@ -172,7 +189,7 @@ function App() {
 
   function resetGame() {
     playSound('reset');
-    window.localStorage.removeItem('midnight-will:save:v1');
+    clearSavedState(episode);
     setAnswers({});
     setSelectedCharacterId(episode.characters[0]?.id ?? '');
     setSelectedEvidenceId('');
@@ -246,7 +263,7 @@ function App() {
     playSound('present');
     const character = charactersById.get(selectedCharacterId);
     const evidence = evidenceById.get(selectedEvidenceId);
-    const reaction = findPresentReaction(selectedCharacterId, selectedEvidenceId, gameState);
+    const reaction = findPresentReaction(episode, selectedCharacterId, selectedEvidenceId, gameState);
     const text =
       reaction?.text ??
       `${character?.name ?? '相手'}に${evidence?.name ?? '証拠'}を示した。今のところ、決定的な反応はない。`;
@@ -300,7 +317,7 @@ function App() {
       endingId: undefined,
       endingSceneIndex: undefined,
       activeSpeakerId: undefined,
-      narrative: '推理を組み直す。金庫ではなく、会議室で起きた数分をもう一度整理する。',
+      narrative: episode.deduction.retryText,
     }));
   }
 
@@ -318,7 +335,7 @@ function App() {
 
   function restartInvestigation() {
     playSound('start');
-    window.localStorage.removeItem('midnight-will:save:v1');
+    clearSavedState(episode);
     setAnswers({});
     setSelectedCharacterId(episode.characters[0]?.id ?? '');
     setSelectedEvidenceId('');
@@ -326,7 +343,7 @@ function App() {
       ...createInitialState(episode),
       started: true,
       narrative: episode.opening.startText,
-      log: ['調査開始。午前0時18分、事務所に到着した。'],
+      log: [episode.opening.startLog],
     });
   }
 
@@ -343,7 +360,14 @@ function App() {
   }
 
   if (!gameState.started) {
-    return <TitleScreen soundEnabled={soundEnabled} onStart={startGame} onToggleSound={toggleSound} />;
+    return (
+      <TitleScreen
+        soundEnabled={soundEnabled}
+        onStart={startGame}
+        onToggleSound={toggleSound}
+        onSelectEpisode={onSelectEpisode}
+      />
+    );
   }
 
   return (
@@ -363,7 +387,7 @@ function App() {
         >
           <div className="case-strip">
             <Scale aria-hidden="true" size={18} />
-            <span>{isEnding ? '終章' : isOpening ? '導入' : '第1話'}</span>
+            <span>{isEnding ? '終章' : isOpening ? '導入' : episode.caseLabel}</span>
           </div>
           {isOpening ? <OpeningBanner scene={activeOpeningScene} index={openingSceneIndex} total={openingScenes.length} /> : null}
           {isEnding ? <EndingBanner scene={activeEndingScene} index={endingSceneIndex} total={successEnding.scenes.length} /> : null}
@@ -441,11 +465,14 @@ function TitleScreen({
   soundEnabled,
   onStart,
   onToggleSound,
+  onSelectEpisode,
 }: {
   soundEnabled: boolean;
   onStart: () => void;
   onToggleSound: () => void;
+  onSelectEpisode: (episodeId: string) => void;
 }) {
+  const { episode } = useEpisodeBundle();
   const SoundIcon = soundEnabled ? Volume2 : VolumeX;
 
   return (
@@ -463,9 +490,32 @@ function TitleScreen({
           <Scale size={42} />
           <BookOpen size={38} />
         </div>
-        <p className="case-number">第1話</p>
+        <p className="case-number">{episode.caseLabel}</p>
         <h1>{episode.title}</h1>
         <p className="subtitle">{episode.subtitle}</p>
+        {EPISODES.length > 1 ? (
+          <div className="episode-select" role="group" aria-label="エピソードを選ぶ">
+            {EPISODES.map((item) => {
+              const selected = item.id === episode.id;
+              const hasSave = Boolean(loadSavedState(item)?.started);
+              return (
+                <button
+                  key={item.id}
+                  className={selected ? 'episode-card selected' : 'episode-card'}
+                  type="button"
+                  aria-pressed={selected}
+                  onClick={() => onSelectEpisode(item.id)}
+                >
+                  <span className="episode-card-label">{item.caseLabel}</span>
+                  <span className="episode-card-title">{item.title}</span>
+                  <span className="episode-card-meta">
+                    約{item.estimatedMinutes}分{hasSave ? ' ・ 続きあり' : ''}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        ) : null}
         <div className="title-actions">
           <button className="primary-button title-button" type="button" onClick={onStart}>
             <FileSearch size={19} />
@@ -512,6 +562,7 @@ function Header({
   onReset: () => void;
   onToggleSound: () => void;
 }) {
+  const { episode } = useEpisodeBundle();
   const SoundIcon = soundEnabled ? Volume2 : VolumeX;
 
   return (
@@ -603,6 +654,7 @@ function OpeningProgressPanel({
   onSkip: () => void;
   onStart: () => void;
 }) {
+  const { episode } = useEpisodeBundle();
   const atStart = currentIndex <= 0;
   const atEnd = currentIndex >= scenes.length - 1;
 
@@ -613,7 +665,7 @@ function OpeningProgressPanel({
         <PhoneCall size={20} aria-hidden="true" />
         <div>
           <span>緊急連絡</span>
-          <strong>午前0時18分までの導入</strong>
+          <strong>{episode.opening.progressLabel}</strong>
         </div>
       </div>
       <ol className="opening-steps">
@@ -652,7 +704,8 @@ function OpeningProgressPanel({
 }
 
 function EndingBanner({ scene, index, total }: { scene?: EndingScene; index: number; total: number }) {
-  const label = scene?.kind === 'clear' ? '第1話 完' : '真相解明';
+  const { episode } = useEpisodeBundle();
+  const label = scene?.kind === 'clear' ? `${episode.caseLabel} 完` : '真相解明';
 
   return (
     <div className={scene?.kind === 'clear' ? 'ending-banner clear' : 'ending-banner'}>
@@ -678,6 +731,7 @@ function EndingProgressPanel({
   onReset: () => void;
   onRestart: () => void;
 }) {
+  const { episode } = useEpisodeBundle();
   const atStart = currentIndex <= 0;
   const atEnd = currentIndex >= ending.scenes.length - 1;
 
@@ -688,7 +742,7 @@ function EndingProgressPanel({
         <Scale size={20} aria-hidden="true" />
         <div>
           <span>事件解決</span>
-          <strong>午前0時の遺言書</strong>
+          <strong>{episode.title}</strong>
         </div>
       </div>
       <ol className="ending-steps">
@@ -728,13 +782,14 @@ function EndingProgressPanel({
 }
 
 function ReleaseLinks() {
-  const shareText = '『午前0時の遺言書』をクリアしました。法律事務所が舞台の10分ミステリーADV。';
+  const { episode } = useEpisodeBundle();
+  const shareText = `『${episode.title}』をクリアしました。法律事務所が舞台の${episode.estimatedMinutes}分ミステリーADV。`;
   const shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(PUBLIC_LINKS.game)}`;
 
   return (
     <section className="release-links" aria-label="制作資料と関連リンク">
-      <p className="release-kicker">第1話クリア後</p>
-      <h3>制作資料と第2話テンプレート</h3>
+      <p className="release-kicker">{episode.caseLabel}クリア後</p>
+      <h3>制作資料と次回作テンプレート</h3>
       <p>
         この短編ミステリーの制作過程、フラグ管理、シナリオJSON、証拠品表、次回作テンプレートを公開しています。
       </p>
@@ -787,7 +842,7 @@ function ActionPane({
 }: {
   state: GameState;
   mode: ViewMode;
-  currentLocation: NonNullable<ReturnType<typeof locationsById.get>>;
+  currentLocation: Location;
   acquiredEvidenceIds: string[];
   selectedCharacterId: string;
   selectedEvidenceId: string;
@@ -839,6 +894,7 @@ function ActionPane({
 }
 
 function MoveActions({ currentLocationId, onMove }: { currentLocationId: string; onMove: (locationId: string) => void }) {
+  const { episode } = useEpisodeBundle();
   return (
     <div className="action-stack">
       <h2>移動</h2>
@@ -892,6 +948,7 @@ function TalkActions({
   currentLocationId: string;
   onTalk: (talk: Talk) => void;
 }) {
+  const { episode, charactersById } = useEpisodeBundle();
   const availableTalks = episode.talks.filter(
     (talk) =>
       (!talk.availableAt?.length || talk.availableAt.includes(currentLocationId)) &&
@@ -938,6 +995,7 @@ function PresentActions({
   onEvidenceChange: (id: string) => void;
   onPresent: () => void;
 }) {
+  const { episode, charactersById, evidenceById } = useEpisodeBundle();
   const evidenceOptions = acquiredEvidenceIds.map((id) => evidenceById.get(id)).filter(Boolean);
   const selectedEvidence = selectedEvidenceId || evidenceOptions[0]?.id || '';
 
@@ -981,6 +1039,7 @@ function PresentActions({
 }
 
 function EvidenceList({ acquiredEvidenceIds }: { acquiredEvidenceIds: string[] }) {
+  const { evidenceById } = useEpisodeBundle();
   if (!acquiredEvidenceIds.length) {
     return <EmptyState icon={Briefcase} text="証拠品はまだない。" />;
   }
@@ -1062,6 +1121,7 @@ function DeductionPanel({
   onAnswer: (answers: Record<string, string>) => void;
   onSubmit: () => void;
 }) {
+  const { episode } = useEpisodeBundle();
   const complete = episode.deduction.questions.every((question) => answers[question.id]);
 
   return (
@@ -1111,8 +1171,9 @@ function SceneSummary({
   currentLocation,
 }: {
   state: GameState;
-  currentLocation: NonNullable<ReturnType<typeof locationsById.get>>;
+  currentLocation: Location;
 }) {
+  const { episode } = useEpisodeBundle();
   const suspects = episode.characters.map((character) => character.name).join(' / ');
 
   return (
@@ -1134,7 +1195,7 @@ function SceneSummary({
         </div>
         <div>
           <dt>進行</dt>
-          <dd>{state.flags.includes('theory_shifted') ? '封筒すり替えの線が浮上' : '金庫から消えた原本を調査中'}</dd>
+          <dd>{state.flags.includes(episode.progress.shifted.flag) ? episode.progress.shifted.label : episode.progress.default}</dd>
         </div>
       </dl>
     </div>
@@ -1340,7 +1401,7 @@ function spritePosition(index: number, total: number) {
   return `${(clamped / (total - 1)) * 100}% 50%`;
 }
 
-function findPresentReaction(characterId: string, evidenceId: string, state: GameState) {
+function findPresentReaction(episode: Episode, characterId: string, evidenceId: string, state: GameState) {
   const reactions = episode.presentReactions.filter(
     (reaction) =>
       reaction.characterId === characterId &&

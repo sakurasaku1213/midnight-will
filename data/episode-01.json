@@ -2,6 +2,7 @@
   "id": "episode_01",
   "title": "午前0時の遺言書",
   "subtitle": "金庫から消えたはずの原本は、いつ消えたのか。",
+  "caseLabel": "第1話",
   "estimatedMinutes": 10,
   "initialLocationId": "director_office",
   "opening": {
@@ -15,6 +16,9 @@
       "あなたはコートをつかみ、深夜の大宮へ向かった。"
     ],
     "startText": "事務所の照明は半分だけ点いていた。受付の時計は0時18分を指している。",
+    "callLog": "午前0時過ぎ、所長から緊急の連絡を受けた。",
+    "startLog": "調査開始。午前0時18分、事務所に到着した。",
+    "progressLabel": "午前0時18分までの導入",
     "scenes": [
       {
         "title": "午前0時の着信",
@@ -54,6 +58,13 @@
     "primary": "deep-blue",
     "tone": "legal-noir",
     "notes": "法律事務所ミステリーらしい硬質なUI。黒、グレー、深い青、白を基調にする。"
+  },
+  "progress": {
+    "default": "金庫から消えた原本を調査中",
+    "shifted": {
+      "flag": "theory_shifted",
+      "label": "封筒すり替えの線が浮上"
+    }
   },
   "characters": [
     {
@@ -585,6 +596,7 @@
     "requiresFlags": [
       "final_unlocked"
     ],
+    "retryText": "推理を組み直す。金庫ではなく、会議室で起きた数分をもう一度整理する。",
     "questions": [
       {
         "id": "culprit",
