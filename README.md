@@ -46,7 +46,7 @@ http://127.0.0.1:5173/
 - Website: `https://sakurasaku1213.github.io/midnight-will/`
 - Topics: `react`, `typescript`, `vite`, `visual-novel`, `mystery-game`, `legal-tech`, `github-pages`
 - 制作資料パック購入案内: `https://sakurasaku1213.github.io/midnight-will/purchase.html`
-- アクセス解析の有効化: `docs/analytics.md` の手順でGoatCounterに登録(3分・無料)
+- アクセス解析: 登録済み。ダッシュボードは https://sakurasaku.goatcounter.com/ (詳細は `docs/analytics.md`)
 
 ## 方針
 
