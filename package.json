@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite --host 127.0.0.1",
     "build": "tsc --noEmit && vite build",
-    "preview": "vite preview --host 127.0.0.1"
+    "preview": "vite preview --host 127.0.0.1",
+    "test:smoke": "node tests/smoke.mjs"
   },
   "dependencies": {
     "@vitejs/plugin-react": "^5.0.0",
@@ -20,6 +21,7 @@
     "@types/node": "^25.6.0",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
+    "playwright": "^1.61.1",
     "playwright-core": "^1.59.1"
   }
 }

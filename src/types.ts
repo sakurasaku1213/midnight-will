@@ -78,12 +78,23 @@ export type Episode = {
   id: string;
   title: string;
   subtitle: string;
+  caseLabel: string;
   estimatedMinutes: number;
   initialLocationId: string;
   opening: {
     lines: string[];
     startText: string;
+    callLog: string;
+    startLog: string;
+    progressLabel: string;
     scenes: OpeningScene[];
+  };
+  progress: {
+    default: string;
+    shifted: {
+      flag: string;
+      label: string;
+    };
   };
   characters: Character[];
   evidence: Evidence[];
@@ -94,6 +105,7 @@ export type Episode = {
   events: GameEvent[];
   deduction: {
     requiresFlags?: string[];
+    retryText: string;
     questions: DeductionQuestion[];
   };
   endings: {

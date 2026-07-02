@@ -139,6 +139,57 @@ button {
   margin: 18px 0 0;
 }
 
+.episode-select {
+  margin: 24px 0 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.episode-card {
+  display: grid;
+  gap: 4px;
+  padding: 14px 16px;
+  text-align: left;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: rgb(255 255 255 / 0.03);
+  color: var(--text);
+  cursor: pointer;
+  transition:
+    border-color 160ms ease,
+    background 160ms ease,
+    transform 160ms ease;
+}
+
+.episode-card:hover {
+  transform: translateY(-1px);
+  border-color: var(--accent);
+}
+
+.episode-card.selected {
+  border-color: rgb(211 178 100 / 0.75);
+  background: rgb(211 178 100 / 0.08);
+}
+
+.episode-card-label {
+  color: var(--warn);
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+}
+
+.episode-card-title {
+  font-weight: 700;
+  font-size: 1.02rem;
+  line-height: 1.4;
+  word-break: keep-all;
+}
+
+.episode-card-meta {
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
 .title-art {
   min-height: 170px;
   margin: 22px 0 0;
@@ -1267,6 +1318,11 @@ select {
   .title-actions {
     grid-template-columns: 1fr;
     margin-top: 20px;
+  }
+
+  .episode-select {
+    grid-template-columns: 1fr;
+    margin-top: 18px;
   }
 
   .command-grid {
