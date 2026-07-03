@@ -2,14 +2,13 @@
 
 全ページに [GoatCounter](https://www.goatcounter.com/) の計測タグを入れてあります。無料・広告なし・Cookie不使用のため、同意バナーなしで使えます。
 
-## 有効化する手順(1回だけ・約3分)
+## 設定状況
 
-1. https://www.goatcounter.com/signup を開く
-2. **Code** に `midnight-will` と入力して登録する(ここが重要。タグは `https://midnight-will.goatcounter.com/count` に送信するよう設定済み)
-3. 登録が終わった時点で計測が始まる。ダッシュボードは https://midnight-will.goatcounter.com/
+- 登録済みコード: `sakurasaku`
+- 全HTMLのタグは `https://sakurasaku.goatcounter.com/count` へ送信するよう設定済み
+- ダッシュボード: https://sakurasaku.goatcounter.com/
 
-`midnight-will` が取得できなかった場合は、別のコードで登録し、全HTMLの
-`data-goatcounter="https://midnight-will.goatcounter.com/count"` を新しいコードに一括置換する。
+コードを変える場合は、全HTMLの `data-goatcounter="https://sakurasaku.goatcounter.com/count"` を新しいコードに一括置換する。
 
 ## 計測しているもの
 
